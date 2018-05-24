@@ -1,0 +1,59 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Информация с БД</title>
+        <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="css/style.css?3" type="text/css">
+        <link rel="stylesheet" href="css/table.css?4" type="text/css">
+        <link rel="stylesheet" href="css/jquery.dataTables.min.css?1" type="text/css">
+        <script type="text/javascript" src="jquery-3.2.0.min.js"></script>
+        <script type="text/javascript" src="css/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="table.js"></script>
+        <script type="text/javascript" src="jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="common.js"></script>
+    </head>
+    <body onload="init()">
+        
+<div class="modal fade" id="DBReqModal_id" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Информация</h4>
+      </div>
+      <div class="modal-body">
+          <h3 style="padding-left:15px;"><img src="img/wait.gif" alt="">&nbsp;&nbsp; Идет запрос в БД&hellip;</h3>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->      
+        
+        <div id="header">
+            <a href="index.jsp">
+                <img src="img/0391.ico" id="logo_home" alt="">
+            </a>
+            <!--     <img src="" id="logoText" alt="Информация с БД Zabbix">-->
+            <div class="logoText"> Информация с БД РЦУСС</div>
+        </div>
+        <div id="left">
+
+            <div id="left_menu">
+                <ul>
+                    <li><a href="dhcpo">DHCP Optinet</a></li>
+                    <li><a href="syslog">Syslog</a></li>
+                    <li><a href="dslam">DSLAM</a></li>
+                    <li><a href="notifications">Оповещения</a></li>
+                    <li><a href="alarms">Аварии</a></li>
+                    <li><a href="ntp">NTP IP</a></li>
+                </ul>
+            </div>
+        </div>
+
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DBReqModal_id">Small modal</button>-->
+

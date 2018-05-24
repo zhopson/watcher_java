@@ -1,2 +1,2 @@
 # watcher_java
-Utility that get info from different DB and other usefull functionality
+Utility that gets info from different DB and provides other usefull functionality
