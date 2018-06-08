@@ -60,15 +60,90 @@ $(document).ready(function () {
 
 $('#id_btn_logs_ntp').click(function () {
     if ($('#id_ip_ntp').val() !== '') {
-        table.ajax.url( 'logs_ntp?action=logs&ip=' + escape($('#id_ip_ntp').val()) ).load();
-        //table.ajax.url('/logs_ntp').load();
+        if (table) table.destroy();
+        
+table = $('#id_ntp_td').DataTable({
+"language": {
+//    "columns": [
+//        null,
+//        null,
+//        { "type": "date" },
+//        null,
+//        null
+//    ],
+    //"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json",
+    "processing": "Подождите...",
+    "search": "Поиск:",
+    "lengthMenu": "Показать _MENU_ записей",
+    "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+    "infoEmpty": "Записи с 0 до 0 из 0 записей",
+    "infoFiltered": "(отфильтровано из _MAX_ записей)",
+    "infoPostFix": "",
+    "loadingRecords": "Загрузка записей...",
+    "zeroRecords": "Записи отсутствуют.",
+    "emptyTable": "В таблице отсутствуют данные",
+    "paginate": {
+        "first": "Первая",
+        "previous": "Предыдущая",
+        "next": "Следующая",
+        "last": "Последняя"
+    },
+    "aria": {
+        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+        "sortDescending": ": активировать для сортировки столбца по убыванию"
+    }
+},
+"pageLength": 10,
+"ajax": 'logs_ntp?action=logs&ip=' + escape($('#id_ip_ntp').val()),
+"deferRender": true
+});        
+        
+        
+        //table.ajax.url( 'logs_ntp?action=logs&ip=' + escape($('#id_ip_ntp').val()) ).load();
     }
 });
 
 $('#id_btn_status_ntp').click(function () {
     if ($('#id_ip_ntp').val() !== '') {
-        table.ajax.url( 'logs_ntp?action=status&ip=' + escape($('#id_ip_ntp').val()) ).load();
-        //table.ajax.url('/logs_ntp').load();
+        if (table) table.destroy();
+        
+table = $('#id_ntp_td').DataTable({
+"language": {
+//    "columns": [
+//        null,
+//        null,
+//        { "type": "date" },
+//        null,
+//        null
+//    ],
+    //"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json",
+    "processing": "Подождите...",
+    "search": "Поиск:",
+    "lengthMenu": "Показать _MENU_ записей",
+    "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+    "infoEmpty": "Записи с 0 до 0 из 0 записей",
+    "infoFiltered": "(отфильтровано из _MAX_ записей)",
+    "infoPostFix": "",
+    "loadingRecords": "Загрузка записей...",
+    "zeroRecords": "Записи отсутствуют.",
+    "emptyTable": "В таблице отсутствуют данные",
+    "paginate": {
+        "first": "Первая",
+        "previous": "Предыдущая",
+        "next": "Следующая",
+        "last": "Последняя"
+    },
+    "aria": {
+        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+        "sortDescending": ": активировать для сортировки столбца по убыванию"
+    }
+},
+"pageLength": 10,
+"ajax": 'logs_ntp?action=status&ip=' + escape($('#id_ip_ntp').val()),
+"deferRender": true
+});        
+        
+        //table.ajax.url( 'logs_ntp?action=status&ip=' + escape($('#id_ip_ntp').val()) ).load();
     }
 });
 

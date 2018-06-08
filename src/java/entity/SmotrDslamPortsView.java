@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -260,8 +261,9 @@ public class SmotrDslamPortsView implements Serializable {
         this.eua = eua;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return dateFormat.format( date );
     }
 
     public void setDate(Date date) {

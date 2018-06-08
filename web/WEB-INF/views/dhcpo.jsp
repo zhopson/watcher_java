@@ -33,7 +33,7 @@
         <!--            <input type="date" class="form-control" id="s_dt_dhcpo" placeholder="Дата начала">-->
     </div>        
     <!--<button type="submit" class="btn btn-primary">Выполнить</button>-->        
-    <button onclick="JavaScript:Get_log_list_dhcpo();" class="btn btn-primary">Выполнить</button>        
+    <button class="btn btn-primary" id="id_btn_exec_dhcpo">Выполнить</button>        
 </div>        
 <!--  </form>-->
 <div id="main_area">
@@ -43,66 +43,136 @@
     <div class="main_block">
         <!--            <table class="table table-hover" id="res_td_dhcpo_id">-->
         <!--            <table border width="100%" cellspacing=1 id="res_td_dhcpo_id">-->
-        <table border width="100%" cellpadding="0" cellspacing="0" border="0"  id="res_td_dhcpo_id" class="sortable">
-            <thead>
-                <!--                <tr bgcolor="D1EEEE">-->
-                <tr>
-                    <th><h3>Дата</h3></th>
-                    <th><h3>Заголовок</h3></th>
-                    <th><h3>Сообщение</h3></th>
-                    <th><h3>Сервер</h3></th>
-                </tr>
-            </thead>
-            <tbody>
-<!--                                <tr>
-                                    <td>элемент 11</td>
-                                    <td>элемент 12</td>
-                                    <td>элемент 13</td>
-                                    <td>элемент 14</td>
-                                </tr>-->
-            </tbody>
-        </table>
-       <div id="controls">
-        <div class="row">
-            <div class="col-md-4">
-                <div id="perpage">
-                    <select onchange="sorter.size(this.value)">
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="200" selected="selected">200</option>
-                        <option value="500">500</option>
-                    </select>
-                    <span>Entries Per Page</span>
-                </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="display" id="id_dhcpo_td"  cellspacing="0" width="100%"  style="font-size:10px;">
+                        <thead>
+                            <tr class="active">
+<!--                                <th style="width: 280px">Наименование партнера</th>-->
+                                <th>Дата</th>
+                                <th>Заголовок</th>
+                                <th>Сообщение</th>
+                                <th>Сервер</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>                
             </div>
-            <div class="col-md-4">
-                <div id="navigation">
-                    <img src="img/first.gif" width="16" height="16" alt="First Page" onclick="sorter.move(-1, true)" />
-                    <img src="img/previous.gif" width="16" height="16" alt="Previous Page" onclick="sorter.move(-1)" />
-                    <img src="img/next.gif" width="16" height="16" alt="Next Page" onclick="sorter.move(1)" />
-                    <img src="img/last.gif" width="16" height="16" alt="Last Page" onclick="sorter.move(1, true)" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div id="text">Displaying Page <span id="currentpage"></span> of <span id="pagelimit"></span></div>
-            </div>
-        </div>
-       </div>
+        </div>  
     </div>
 </div>
 
-<script type="text/javascript" src="table.js"></script>
 <script type="text/javascript">
-                    var sorter = new TINY.table.sorter("sorter");
-                    sorter.head = "head";
-                    sorter.asc = "asc";
-                    sorter.desc = "desc";
-                    sorter.even = "evenrow";
-                    sorter.odd = "oddrow";
-                    sorter.evensel = "evenselected";
-                    sorter.oddsel = "oddselected";
-                    sorter.paginate = true;
-                    sorter.currentid = "currentpage";
-                    sorter.limitid = "pagelimit";
-                    sorter.initTab("res_td_dhcpo_id", 1);
+    
+    var table;
+    
+$(document).ready(function () {
+
+$('#id_btn_exec_dhcpo').click(function () {
+    if ($('#id_ip_dhcpo').val() !== '') {
+        //table.reset();
+        //table.clear();
+        //table.clear().draw();
+        //table.rows().clear().draw();
+        //table.clear().rows.add(document.pvm.tableContent()).draw();
+        
+        //table.ajax.url( "dhcpo_get?ip_dhcpo=" + escape(ipField_dhcpo.value) + "&s_dt_dhcpo=" + escape(sdtField_dhcpo.value) + "&e_dt_dhcpo=" + escape(edtField_dhcpo.value) + "&chk_arch_dhcpo=" + escape(archField_dhcpo.checked) ).load();
+        //table.ajax = "dhcpo_get?ip_dhcpo=" + escape(ipField_dhcpo.value) + "&s_dt_dhcpo=" + escape(sdtField_dhcpo.value) + "&e_dt_dhcpo=" + escape(edtField_dhcpo.value) + "&chk_arch_dhcpo=" + escape(archField_dhcpo.checked);
+        //table.ajax.reload();
+
+            
+if (table) table.destroy();
+
+table = $('#id_dhcpo_td').DataTable({
+"language": {
+//    "columns": [
+//        null,
+//        null,
+//        { "type": "date" },
+//        null,
+//        null
+//    ],
+    //"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json",
+    "processing": "Подождите...",
+    "search": "Поиск:",
+    "lengthMenu": "Показать _MENU_ записей",
+    "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+    "infoEmpty": "Записи с 0 до 0 из 0 записей",
+    "infoFiltered": "(отфильтровано из _MAX_ записей)",
+    "infoPostFix": "",
+    "loadingRecords": "Загрузка записей...",
+    "zeroRecords": "Записи отсутствуют.",
+    "emptyTable": "В таблице отсутствуют данные",
+    "paginate": {
+        "first": "Первая",
+        "previous": "Предыдущая",
+        "next": "Следующая",
+        "last": "Последняя"
+    },
+    "aria": {
+        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+        "sortDescending": ": активировать для сортировки столбца по убыванию"
+    }
+},
+"pageLength": 50,
+"ajax": "dhcpo_get?ip_dhcpo=" + escape(ipField_dhcpo.value) + "&s_dt_dhcpo=" + escape(sdtField_dhcpo.value) + "&e_dt_dhcpo=" + escape(edtField_dhcpo.value) + "&chk_arch_dhcpo=" + escape(archField_dhcpo.checked),
+"deferRender": true
+});
+        
+        
+        
+        
+        
+    }
+});
+
+//$.ajaxSetup({
+//headers: {
+//    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//}
+//});
+
+
+table = $('#id_dhcpo_td').DataTable({
+"language": {
+//    "columns": [
+//        null,
+//        null,
+//        { "type": "date" },
+//        null,
+//        null
+//    ],
+    //"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json",
+    "processing": "Подождите...",
+    "search": "Поиск:",
+    "lengthMenu": "Показать _MENU_ записей",
+    "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+    "infoEmpty": "Записи с 0 до 0 из 0 записей",
+    "infoFiltered": "(отфильтровано из _MAX_ записей)",
+    "infoPostFix": "",
+    "loadingRecords": "Загрузка записей...",
+    "zeroRecords": "Записи отсутствуют.",
+    "emptyTable": "В таблице отсутствуют данные",
+    "paginate": {
+        "first": "Первая",
+        "previous": "Предыдущая",
+        "next": "Следующая",
+        "last": "Последняя"
+    },
+    "aria": {
+        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+        "sortDescending": ": активировать для сортировки столбца по убыванию"
+    }
+},
+"pageLength": 50,
+//"ajax": "dhcpo_get?ip_dhcpo=" + escape(ipField_dhcpo.value) + "&s_dt_dhcpo=" + escape(sdtField_dhcpo.value) + "&e_dt_dhcpo=" + escape(edtField_dhcpo.value) + "&chk_arch_dhcpo=" + escape(archField_dhcpo.checked),
+"deferRender": true
+});
+
+
+
+});
 </script>

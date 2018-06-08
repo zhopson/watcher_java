@@ -130,9 +130,11 @@ public class dhcpoServlet extends HttpServlet {
                         }
                     }
                     else {
-                        response.setContentType("text/xml");
+                        
+                        response.setContentType("application/json");
                         response.setHeader("Cache-Control", "no-cache");
-                        response.getWriter().write("<errors_dhcpo>empty_ip</errors_dhcpo>");
+                        response.getWriter().write("{\"data\":[]}");                        
+                        
                         return;
                     }
                     List resultList=null;
@@ -157,38 +159,57 @@ public class dhcpoServlet extends HttpServlet {
                        resultList = em.createNamedQuery(table+".findByTimeInterval").setParameter("time1", parsingDateS).setParameter("time2", parsingDateE).getResultList();
                     }
                     boolean logsAdded=false;
-                    if (resultList != null) {
+                    if (resultList.size() != 0) {
                         if ("false".equals(IsArch)) {
                             for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
                                 SmotrLogsOptinetView next = (SmotrLogsOptinetView) iterator.next();
-                                sb.append("<log_raw>");
-                                sb.append("<time>" + next.getTime() + "</time>");
-                                sb.append("<header>" + next.getHeader() + "</header>");
-                                sb.append("<message>" + next.getMessage() + "</message>");
-                                sb.append("<server>" + next.getServer() + "</server>");
-                                sb.append("</log_raw>");
+                                
+                                sb.append("[");
+                                sb.append("\"" + next.getTime() + "\",");
+                                sb.append("\"" + next.getHeader() + "\",");
+                                sb.append("\"" + next.getMessage() + "\",");
+                                sb.append("\"" + next.getServer() + "\"");
+                                sb.append("],");                                
+//                                sb.append("<log_raw>");
+//                                sb.append("<time>" + next.getTime() + "</time>");
+//                                sb.append("<header>" + next.getHeader() + "</header>");
+//                                sb.append("<message>" + next.getMessage() + "</message>");
+//                                sb.append("<server>" + next.getServer() + "</server>");
+//                                sb.append("</log_raw>");
                                 logsAdded = true;
                             }
                         } else {
                             for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
                                 SmotrArchiveLogsOptinetView next = (SmotrArchiveLogsOptinetView) iterator.next();
-                                sb.append("<log_raw>");
-                                sb.append("<time>" + next.getTime() + "</time>");
-                                sb.append("<header>" + next.getHeader() + "</header>");
-                                sb.append("<message>" + next.getMessage() + "</message>");
-                                sb.append("<server>" + next.getServer() + "</server>");
-                                sb.append("</log_raw>");
+                                
+                                sb.append("[");
+                                sb.append("\"" + next.getTime() + "\",");
+                                sb.append("\"" + next.getHeader() + "\",");
+                                sb.append("\"" + next.getMessage() + "\",");
+                                sb.append("\"" + next.getServer() + "\"");
+                                sb.append("],");                                
+                                
                                 logsAdded = true;
                             }
                         }
+                        sb = sb.deleteCharAt(sb.length() - 1);
                     }
                     if (logsAdded) {
-                        response.setContentType("text/xml");
-                        response.setHeader("Cache-Control", "no-cache");
-                        response.getWriter().write("<logs_dhcpo>" + sb.toString() + "</logs_dhcpo>");
+//                        response.setContentType("text/xml");
+//                        response.setHeader("Cache-Control", "no-cache");
+//                        response.getWriter().write("<logs_dhcpo>" + sb.toString() + "</logs_dhcpo>");
+
+                            response.setContentType("application/json");
+                            response.setHeader("Cache-Control", "no-cache");
+                            response.getWriter().write("{\"data\":[" + sb.toString() + "]}");
+
                     } else {
                         //nothing to show
-                        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                        //response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+
+                            response.setContentType("application/json");
+                            response.setHeader("Cache-Control", "no-cache");
+                            response.getWriter().write("{\"data\":[]}");
                     }
 //                    request.setAttribute("list_dhcpo", resultList);
 //                    request.setAttribute("ip_attr_dhcpo", ip);

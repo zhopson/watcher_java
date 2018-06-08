@@ -70,7 +70,7 @@ var selFieldRep_dslam_s;
 
 function init() {
 
-var sorter = new TINY.table.sorter("sorter");
+//var sorter = new TINY.table.sorter("sorter");
 
     //alert(window.location.pathname);
     if (window.location.pathname.indexOf('syslog') + 1) {
@@ -215,19 +215,19 @@ var sorter = new TINY.table.sorter("sorter");
 
 }
 
-function Get_log_list_dhcpo() {
-
-    var url = "dhcpo_get?ip_dhcpo=" + escape(ipField_dhcpo.value) + "&s_dt_dhcpo=" + escape(sdtField_dhcpo.value) + "&e_dt_dhcpo=" + escape(edtField_dhcpo.value) + "&chk_arch_dhcpo=" + escape(archField_dhcpo.checked);
-    req_dhcpo = initRequest();
-    req_dhcpo.open("GET", url, true);
-    req_dhcpo.onreadystatechange = callback_dhcpo;
-    req_dhcpo.send(null);
-    //document.getElementById("waitModal").modal = 'show';
-//        var d = document.getElementById("waitModal");
-//        d.style.display='block';
-    $('#DBReqModal_id').modal('show');
-}
-
+//function Get_log_list_dhcpo() {
+//
+//    var url = "dhcpo_get?ip_dhcpo=" + escape(ipField_dhcpo.value) + "&s_dt_dhcpo=" + escape(sdtField_dhcpo.value) + "&e_dt_dhcpo=" + escape(edtField_dhcpo.value) + "&chk_arch_dhcpo=" + escape(archField_dhcpo.checked);
+//    req_dhcpo = initRequest();
+//    req_dhcpo.open("GET", url, true);
+//    req_dhcpo.onreadystatechange = callback_dhcpo;
+//    req_dhcpo.send(null);
+//    //document.getElementById("waitModal").modal = 'show';
+////        var d = document.getElementById("waitModal");
+////        d.style.display='block';
+//    $('#DBReqModal_id').modal('show');
+//}
+//
 function initRequest() {
     if (window.XMLHttpRequest) {
         if (navigator.userAgent.indexOf('MSIE') != -1) {
@@ -239,138 +239,138 @@ function initRequest() {
         return new ActiveXObject("Microsoft.XMLHTTP");
     }
 }
-
-function callback_dhcpo() {
-    clearTable_dhcpo();
-    if (req_dhcpo.readyState === 4) {
-        if (req_dhcpo.status === 200) {
-            parseMessages_dhcpo(req_dhcpo.responseXML);
-        }
-    }
-    $('#DBReqModal_id').modal('hide');
-//    $('#waitModal').on('show.bs.modal', function (e) {
-//        //if (!data)
-//            return e.preventDefault() // stops modal from being shown
-//    })
-    //document.getElementById("waitModal").modal = 'hide';
-}
-
-function appendRow_dhcpo(ptime, pheader, pmessage, pserver) {
-
-//    var cell1, cell2, cell3, cell4;
-//    var tbody = ResTableDhcpo.getElementsByTagName("tbody")[0];
-//    //var tbody = document.getElementById("res_td_dhcpo_id").getElementsByTagName("tbody")[0];
-//    var row;
-//    if (isIE) {
-//        ResTableDhcpo.style.display = 'block';
-//        row = ResTableDhcpo.insertRow(ResTableDhcpo.rows.length);
-//        cell1 = row.insertCell(0);
-//        cell2 = row.insertCell(1);
-//        cell3 = row.insertCell(2);
-//        cell4 = row.insertCell(3);
-//    } else {
-//        //ResTableDhcpo.style.display = 'table';
-//        //ResTableDhcpo.style.class = "table table-hover";
-//        row = document.createElement("tr");
-//        cell1 = document.createElement("td");
-//        cell2 = document.createElement("td");
-//        cell3 = document.createElement("td");
-//        cell4 = document.createElement("td");
-//        row.appendChild(cell1);
-//        row.appendChild(cell2);
-//        row.appendChild(cell3);
-//        row.appendChild(cell4);
-//        tbody.appendChild(row);
+//
+//function callback_dhcpo() {
+//    clearTable_dhcpo();
+//    if (req_dhcpo.readyState === 4) {
+//        if (req_dhcpo.status === 200) {
+//            parseMessages_dhcpo(req_dhcpo.responseXML);
+//        }
 //    }
-//    Elem_time = document.createTextNode(ptime);
-//    cell1.appendChild(Elem_time);
-//    Elem_pheader = document.createTextNode(pheader);
-//    cell2.appendChild(Elem_pheader);
-//    Elem_pmessage = document.createTextNode(pmessage);
-//    cell3.appendChild(Elem_pmessage);
-//    Elem_pserver = document.createTextNode(pserver);
-//    cell4.appendChild(Elem_pserver);
-
-    var tbody = ResTableDhcpo.getElementsByTagName("TBODY")[0];
-    var row = document.createElement("tr");
-    
-    var td_time = document.createElement("td");
-    td_time.style = "padding-left:5px;";
-    td_time.appendChild(document.createTextNode(ptime));
-    row.appendChild(td_time);
-
-    var td_header = document.createElement("td");
-    td_header.style = "padding-left:5px;";
-    td_header.appendChild(document.createTextNode(pheader));
-    row.appendChild(td_header);
-
-    var td_message = document.createElement("td");
-    td_message.style = "padding-left:5px;";
-    td_message.appendChild(document.createTextNode(pmessage));
-    row.appendChild(td_message);
-
-    var td_server = document.createElement("td");
-    td_server.style = "padding-left:5px;";
-    td_server.appendChild(document.createTextNode(pserver));
-    row.appendChild(td_server);
-    
-    tbody.appendChild(row);
-
-}
-
-function clearTable_dhcpo() {
-    var tbody = ResTableDhcpo.getElementsByTagName("tbody")[0];
-//    if (ResTableDhcpo.getElementsByTagName("tr").length > 0) {
-    if (tbody.childNodes.length > 0) {
-        //ResTableDhcpo.style.display = 'none';
-        for (loop = tbody.childNodes.length - 1; loop >= 0; loop--) {
-            tbody.removeChild(tbody.childNodes[loop]);
-        }
-    }
-}
-
-function parseMessages_dhcpo(responseXML) {
-    // no matches returned
-    if (responseXML == null) {
-        return false;
-    } else {
-        var logs_dhcpo = responseXML.getElementsByTagName("logs_dhcpo")[0];
-        var error_dhcpo = responseXML.getElementsByTagName("errors_dhcpo")[0];
-        if (error_dhcpo != undefined) {
-//            var error_row = error_dhcpo.childNodes[0];
-//            var error = error_row.getElementsByTagName("error_dhcpo")[0];
-            alert("Поле IP или MAC не заполнено");
-        } else {
-            if (logs_dhcpo.childNodes.length > 0) {
-//            completeTable.setAttribute("bordercolor", "black"); ptime,pheader,pmessage,pserver
-//            completeTable.setAttribute("border", "1");
-                for (loop = 0; loop < logs_dhcpo.childNodes.length; loop++) {
-                    var log_row = logs_dhcpo.childNodes[loop];
-                    var time = log_row.getElementsByTagName("time")[0];
-                    var header = log_row.getElementsByTagName("header")[0];
-                    var message = log_row.getElementsByTagName("message")[0];
-                    var server = log_row.getElementsByTagName("server")[0];
-                    appendRow_dhcpo(time.childNodes[0].nodeValue,
-                            header.childNodes[0].nodeValue,
-                            message.childNodes[0].nodeValue,
-                            server.childNodes[0].nodeValue);
-                }
-            }
-        }
-        sorter.head = "head";
-        sorter.asc = "asc";
-        sorter.desc = "desc";
-        sorter.even = "evenrow";
-        sorter.odd = "oddrow";
-        sorter.evensel = "evenselected";
-        sorter.oddsel = "oddselected";
-        sorter.paginate = true;
-        sorter.currentid = "currentpage";
-        sorter.limitid = "pagelimit";
-        sorter.initTab("res_td_dhcpo_id", 1);
-        
-    }
-}
+//    $('#DBReqModal_id').modal('hide');
+////    $('#waitModal').on('show.bs.modal', function (e) {
+////        //if (!data)
+////            return e.preventDefault() // stops modal from being shown
+////    })
+//    //document.getElementById("waitModal").modal = 'hide';
+//}
+//
+//function appendRow_dhcpo(ptime, pheader, pmessage, pserver) {
+//
+////    var cell1, cell2, cell3, cell4;
+////    var tbody = ResTableDhcpo.getElementsByTagName("tbody")[0];
+////    //var tbody = document.getElementById("res_td_dhcpo_id").getElementsByTagName("tbody")[0];
+////    var row;
+////    if (isIE) {
+////        ResTableDhcpo.style.display = 'block';
+////        row = ResTableDhcpo.insertRow(ResTableDhcpo.rows.length);
+////        cell1 = row.insertCell(0);
+////        cell2 = row.insertCell(1);
+////        cell3 = row.insertCell(2);
+////        cell4 = row.insertCell(3);
+////    } else {
+////        //ResTableDhcpo.style.display = 'table';
+////        //ResTableDhcpo.style.class = "table table-hover";
+////        row = document.createElement("tr");
+////        cell1 = document.createElement("td");
+////        cell2 = document.createElement("td");
+////        cell3 = document.createElement("td");
+////        cell4 = document.createElement("td");
+////        row.appendChild(cell1);
+////        row.appendChild(cell2);
+////        row.appendChild(cell3);
+////        row.appendChild(cell4);
+////        tbody.appendChild(row);
+////    }
+////    Elem_time = document.createTextNode(ptime);
+////    cell1.appendChild(Elem_time);
+////    Elem_pheader = document.createTextNode(pheader);
+////    cell2.appendChild(Elem_pheader);
+////    Elem_pmessage = document.createTextNode(pmessage);
+////    cell3.appendChild(Elem_pmessage);
+////    Elem_pserver = document.createTextNode(pserver);
+////    cell4.appendChild(Elem_pserver);
+//
+//    var tbody = ResTableDhcpo.getElementsByTagName("TBODY")[0];
+//    var row = document.createElement("tr");
+//    
+//    var td_time = document.createElement("td");
+//    td_time.style = "padding-left:5px;";
+//    td_time.appendChild(document.createTextNode(ptime));
+//    row.appendChild(td_time);
+//
+//    var td_header = document.createElement("td");
+//    td_header.style = "padding-left:5px;";
+//    td_header.appendChild(document.createTextNode(pheader));
+//    row.appendChild(td_header);
+//
+//    var td_message = document.createElement("td");
+//    td_message.style = "padding-left:5px;";
+//    td_message.appendChild(document.createTextNode(pmessage));
+//    row.appendChild(td_message);
+//
+//    var td_server = document.createElement("td");
+//    td_server.style = "padding-left:5px;";
+//    td_server.appendChild(document.createTextNode(pserver));
+//    row.appendChild(td_server);
+//    
+//    tbody.appendChild(row);
+//
+//}
+//
+//function clearTable_dhcpo() {
+//    var tbody = ResTableDhcpo.getElementsByTagName("tbody")[0];
+////    if (ResTableDhcpo.getElementsByTagName("tr").length > 0) {
+//    if (tbody.childNodes.length > 0) {
+//        //ResTableDhcpo.style.display = 'none';
+//        for (loop = tbody.childNodes.length - 1; loop >= 0; loop--) {
+//            tbody.removeChild(tbody.childNodes[loop]);
+//        }
+//    }
+//}
+//
+//function parseMessages_dhcpo(responseXML) {
+//    // no matches returned
+//    if (responseXML == null) {
+//        return false;
+//    } else {
+//        var logs_dhcpo = responseXML.getElementsByTagName("logs_dhcpo")[0];
+//        var error_dhcpo = responseXML.getElementsByTagName("errors_dhcpo")[0];
+//        if (error_dhcpo != undefined) {
+////            var error_row = error_dhcpo.childNodes[0];
+////            var error = error_row.getElementsByTagName("error_dhcpo")[0];
+//            alert("Поле IP или MAC не заполнено");
+//        } else {
+//            if (logs_dhcpo.childNodes.length > 0) {
+////            completeTable.setAttribute("bordercolor", "black"); ptime,pheader,pmessage,pserver
+////            completeTable.setAttribute("border", "1");
+//                for (loop = 0; loop < logs_dhcpo.childNodes.length; loop++) {
+//                    var log_row = logs_dhcpo.childNodes[loop];
+//                    var time = log_row.getElementsByTagName("time")[0];
+//                    var header = log_row.getElementsByTagName("header")[0];
+//                    var message = log_row.getElementsByTagName("message")[0];
+//                    var server = log_row.getElementsByTagName("server")[0];
+//                    appendRow_dhcpo(time.childNodes[0].nodeValue,
+//                            header.childNodes[0].nodeValue,
+//                            message.childNodes[0].nodeValue,
+//                            server.childNodes[0].nodeValue);
+//                }
+//            }
+//        }
+//        sorter.head = "head";
+//        sorter.asc = "asc";
+//        sorter.desc = "desc";
+//        sorter.even = "evenrow";
+//        sorter.odd = "oddrow";
+//        sorter.evensel = "evenselected";
+//        sorter.oddsel = "oddselected";
+//        sorter.paginate = true;
+//        sorter.currentid = "currentpage";
+//        sorter.limitid = "pagelimit";
+//        sorter.initTab("res_td_dhcpo_id", 1);
+//        
+//    }
+//}
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -443,109 +443,109 @@ function Addhost_syslog(pid, pgrid, phost) {
     }
 }
 
-function Get_log_list_syslog() {
-    var ip = selectHstField_syslog.options[selectHstField_syslog.selectedIndex].text;
-    ip = ip.substring(0, ip.indexOf('['));
-    var url = "syslog_get?s_dt_syslog=" + escape(sdtField_syslog.value) +
-            "&e_dt_syslog=" + escape(edtField_syslog.value) +
-            "&sel_group_syslog=" + escape(selectGrField_syslog.value) +
-            "&sel_host_syslog=" + escape(ip) +
-            "&sel_level_syslog=" + escape(selectLevelField_syslog.value) +
-            "&ed_msg_syslog=" + escape(msgField_syslog.value);
-    req_syslog = initRequest();
-    req_syslog.open("GET", url, true);
-    req_syslog.onreadystatechange = callback_syslog;
-    req_syslog.send(null);
-}
-
-function callback_syslog() {
-    clearTable_syslog();
-    if (req_syslog.readyState === 4) {
-        if (req_syslog.status === 200) {
-            parseMessages_syslog(req_syslog.responseXML);
-        }
-    }
-}
-
-function clearTable_syslog() {
-    if (ResTableSyslog.getElementsByTagName("tr").length > 0) {
-        //ResTableDhcpo.style.display = 'none';
-        for (loop = ResTableSyslog.childNodes.length - 1; loop >= 2; loop--) {
-            ResTableSyslog.removeChild(ResTableSyslog.childNodes[loop]);
-        }
-    }
-}
-
-function parseMessages_syslog(responseXML) {
-    if (responseXML == null) {
-        return false;
-    } else {
-        var logs_syslog = responseXML.getElementsByTagName("logs_syslog")[0];
-
-        if (logs_syslog.childNodes.length > 0) {
-//            completeTable.setAttribute("bordercolor", "black"); ptime,pheader,pmessage,pserver
-//            completeTable.setAttribute("border", "1");
-            for (loop = 0; loop < logs_syslog.childNodes.length; loop++) {
-                var log_row = logs_syslog.childNodes[loop];
-                var name = log_row.getElementsByTagName("name")[0];
-                var facility = log_row.getElementsByTagName("facility")[0];
-                var level = log_row.getElementsByTagName("level")[0];
-                var host = log_row.getElementsByTagName("host")[0];
-                var date = log_row.getElementsByTagName("date")[0];
-                var message = log_row.getElementsByTagName("message")[0];
-                appendRow_syslog(name.childNodes[0].nodeValue,
-                        facility.childNodes[0].nodeValue,
-                        level.childNodes[0].nodeValue,
-                        host.childNodes[0].nodeValue,
-                        date.childNodes[0].nodeValue,
-                        message.childNodes[0].nodeValue);
-            }
-        }
-    }
-}
-
-function appendRow_syslog(pname, pfacility, plevel, phost, pdate, pmessage) {
-    var cell1, cell2, cell3, cell4, cell5, cell6;
-    if (isIE) {
-        ResTableSyslog.style.display = 'block';
-        row = ResTableSyslog.insertRow(ResTableSyslog.rows.length);
-        cell1 = row.insertCell(0);
-        cell2 = row.insertCell(1);
-        cell3 = row.insertCell(2);
-        cell4 = row.insertCell(3);
-        cell5 = row.insertCell(4);
-        cell6 = row.insertCell(5);
-    } else {
-        ResTableSyslog.style.display = 'table';
-        ResTableSyslog.style.class = "table table-hover";
-        row = document.createElement("tr");
-        cell1 = document.createElement("td");
-        cell2 = document.createElement("td");
-        cell3 = document.createElement("td");
-        cell4 = document.createElement("td");
-        cell5 = document.createElement("td");
-        cell6 = document.createElement("td");
-        row.appendChild(cell1);
-        row.appendChild(cell2);
-        row.appendChild(cell3);
-        row.appendChild(cell4);
-        row.appendChild(cell5);
-        row.appendChild(cell6);
-        ResTableSyslog.appendChild(row);
-    }
-    Elem_pname = document.createTextNode(pname);
-    cell1.appendChild(Elem_pname);
-    Elem_pfacility = document.createTextNode(pfacility);
-    cell2.appendChild(Elem_pfacility);
-    Elem_plevel = document.createTextNode(plevel);
-    cell3.appendChild(Elem_plevel);
-    Elem_phost = document.createTextNode(phost);
-    cell4.appendChild(Elem_phost);
-    Elem_pdate = document.createTextNode(pdate);
-    cell5.appendChild(Elem_pdate);
-    Elem_pmessage = document.createTextNode(pmessage);
-    cell6.appendChild(Elem_pmessage);
-}
+//function Get_log_list_syslog() {
+//    var ip = selectHstField_syslog.options[selectHstField_syslog.selectedIndex].text;
+//    ip = ip.substring(0, ip.indexOf('['));
+//    var url = "syslog_get?s_dt_syslog=" + escape(sdtField_syslog.value) +
+//            "&e_dt_syslog=" + escape(edtField_syslog.value) +
+//            "&sel_group_syslog=" + escape(selectGrField_syslog.value) +
+//            "&sel_host_syslog=" + escape(ip) +
+//            "&sel_level_syslog=" + escape(selectLevelField_syslog.value) +
+//            "&ed_msg_syslog=" + escape(msgField_syslog.value);
+//    req_syslog = initRequest();
+//    req_syslog.open("GET", url, true);
+//    req_syslog.onreadystatechange = callback_syslog;
+//    req_syslog.send(null);
+//}
+//
+//function callback_syslog() {
+//    clearTable_syslog();
+//    if (req_syslog.readyState === 4) {
+//        if (req_syslog.status === 200) {
+//            parseMessages_syslog(req_syslog.responseXML);
+//        }
+//    }
+//}
+//
+//function clearTable_syslog() {
+//    if (ResTableSyslog.getElementsByTagName("tr").length > 0) {
+//        //ResTableDhcpo.style.display = 'none';
+//        for (loop = ResTableSyslog.childNodes.length - 1; loop >= 2; loop--) {
+//            ResTableSyslog.removeChild(ResTableSyslog.childNodes[loop]);
+//        }
+//    }
+//}
+//
+//function parseMessages_syslog(responseXML) {
+//    if (responseXML == null) {
+//        return false;
+//    } else {
+//        var logs_syslog = responseXML.getElementsByTagName("logs_syslog")[0];
+//
+//        if (logs_syslog.childNodes.length > 0) {
+////            completeTable.setAttribute("bordercolor", "black"); ptime,pheader,pmessage,pserver
+////            completeTable.setAttribute("border", "1");
+//            for (loop = 0; loop < logs_syslog.childNodes.length; loop++) {
+//                var log_row = logs_syslog.childNodes[loop];
+//                var name = log_row.getElementsByTagName("name")[0];
+//                var facility = log_row.getElementsByTagName("facility")[0];
+//                var level = log_row.getElementsByTagName("level")[0];
+//                var host = log_row.getElementsByTagName("host")[0];
+//                var date = log_row.getElementsByTagName("date")[0];
+//                var message = log_row.getElementsByTagName("message")[0];
+//                appendRow_syslog(name.childNodes[0].nodeValue,
+//                        facility.childNodes[0].nodeValue,
+//                        level.childNodes[0].nodeValue,
+//                        host.childNodes[0].nodeValue,
+//                        date.childNodes[0].nodeValue,
+//                        message.childNodes[0].nodeValue);
+//            }
+//        }
+//    }
+//}
+//
+//function appendRow_syslog(pname, pfacility, plevel, phost, pdate, pmessage) {
+//    var cell1, cell2, cell3, cell4, cell5, cell6;
+//    if (isIE) {
+//        ResTableSyslog.style.display = 'block';
+//        row = ResTableSyslog.insertRow(ResTableSyslog.rows.length);
+//        cell1 = row.insertCell(0);
+//        cell2 = row.insertCell(1);
+//        cell3 = row.insertCell(2);
+//        cell4 = row.insertCell(3);
+//        cell5 = row.insertCell(4);
+//        cell6 = row.insertCell(5);
+//    } else {
+//        ResTableSyslog.style.display = 'table';
+//        ResTableSyslog.style.class = "table table-hover";
+//        row = document.createElement("tr");
+//        cell1 = document.createElement("td");
+//        cell2 = document.createElement("td");
+//        cell3 = document.createElement("td");
+//        cell4 = document.createElement("td");
+//        cell5 = document.createElement("td");
+//        cell6 = document.createElement("td");
+//        row.appendChild(cell1);
+//        row.appendChild(cell2);
+//        row.appendChild(cell3);
+//        row.appendChild(cell4);
+//        row.appendChild(cell5);
+//        row.appendChild(cell6);
+//        ResTableSyslog.appendChild(row);
+//    }
+//    Elem_pname = document.createTextNode(pname);
+//    cell1.appendChild(Elem_pname);
+//    Elem_pfacility = document.createTextNode(pfacility);
+//    cell2.appendChild(Elem_pfacility);
+//    Elem_plevel = document.createTextNode(plevel);
+//    cell3.appendChild(Elem_plevel);
+//    Elem_phost = document.createTextNode(phost);
+//    cell4.appendChild(Elem_phost);
+//    Elem_pdate = document.createTextNode(pdate);
+//    cell5.appendChild(Elem_pdate);
+//    Elem_pmessage = document.createTextNode(pmessage);
+//    cell6.appendChild(Elem_pmessage);
+//}
 
 ////////////////////////////////////////////////////////////////////////////
 
@@ -904,443 +904,443 @@ function Set_active_date_dslam(){
  }
 }
 
-function find_dslam(){
-    var url = "dslam_get?action=find_dslam_ports&s_dt_dslam=" + escape(sdtField_dslam.value) +
-            "&e_dt_dslam=" + escape(edtField_dslam.value) +
-            "&chk_arch_dslam=" + escape(archField_dslam.checked) +
-            "&chk_no_binds_dslam=" + escape(NoBindsField_dslam.checked) +
-            "&ed_host_dslam=" + escape(HostField_dslam.value) +
-            "&ed_port_dslam=" + escape(PortField_dslam.value) +
-            "&ed_bind_dslam=" + escape(BindField_dslam.value) +
-            "&ed_adres_dslam=" + AdresField_dslam.value +
-            "&ed_dom_dslam=" + escape(DomField_dslam.value); 
-
-    req_dslam = initRequest();
-    req_dslam.open("GET", url, true);
-    req_dslam.onreadystatechange = callback_find_dslam;
-    req_dslam.send(null);   
-}
-
-function callback_find_dslam(){
-    clearTable_dslam();
-    if (req_dslam.readyState === 4) {
-        if (req_dslam.status === 200) {
-            parseMessages_dslam(req_dslam.responseXML);
-        }
-    }
-}
-
-function clearTable_dslam(){
-    if (ResTable_dslam.getElementsByTagName("tr").length > 0) {
-        //ResTableDhcpo.style.display = 'none';
-        for (loop = ResTable_dslam.childNodes.length - 1; loop >= 1; loop--) {
-            ResTable_dslam.removeChild(ResTable_dslam.childNodes[loop]);
-        }
-    }    
-}
-
-function parseMessages_dslam(responseXML) {
-    if (responseXML == null) {
-        return false;
-    } else {
-//        var ports_dslam = responseXML.getElementsByTagName("dslam_ports_dslam")[0];
-        var ports_dslam = responseXML.getElementsByTagName("dslam_ports_list")[0];
-
-        if (ports_dslam !== undefined) {
-//            completeTable.setAttribute("bordercolor", "black"); ptime,pheader,pmessage,pserver
-//            completeTable.setAttribute("border", "1");
-            SetColumsNames(0);
-            
-            for (loop = 0; loop < ports_dslam.childNodes.length; loop++) {
-                var ports_row = ports_dslam.childNodes[loop];
-                
-                var host_name = ports_row.getElementsByTagName("host_name")[0];
-                var host = ports_row.getElementsByTagName("host")[0];
-                var port = ports_row.getElementsByTagName("port")[0];
-                var status = ports_row.getElementsByTagName("status")[0];
-                var ip_line = ports_row.getElementsByTagName("ip_line")[0];
-                var profile_line = ports_row.getElementsByTagName("profile_line")[0];
-                var profile_iptv = ports_row.getElementsByTagName("profile_iptv")[0];
-                var vlan_line = ports_row.getElementsByTagName("vlan_line")[0];
-                var pvc_line = ports_row.getElementsByTagName("pvc_line")[0];
-                var vlan_iptv = ports_row.getElementsByTagName("vlan_iptv")[0];
-                var pvc_iptv = ports_row.getElementsByTagName("pvc_iptv")[0];
-                var ed_snr = ports_row.getElementsByTagName("ed_snr")[0];
-                var eda = ports_row.getElementsByTagName("eda")[0];
-                var eusnr = ports_row.getElementsByTagName("eusnr")[0];
-                var eua = ports_row.getElementsByTagName("eua")[0];
-                var date = ports_row.getElementsByTagName("date")[0];
-                
-                appendRow_ports_dslam("",
-                        host_name.childNodes[0].nodeValue,
-                        host.childNodes[0].nodeValue,
-                        port.childNodes[0].nodeValue,
-                        status.childNodes[0].nodeValue,
-                        ip_line.childNodes[0].nodeValue,
-                        profile_line.childNodes[0].nodeValue,
-                        profile_iptv.childNodes[0]!==undefined?profile_iptv.childNodes[0].nodeValue:"",
-                        vlan_line.childNodes[0].nodeValue,
-                        pvc_line.childNodes[0].nodeValue,
-                        vlan_iptv.childNodes[0]!==undefined?vlan_iptv.childNodes[0].nodeValue:"",
-                        pvc_iptv.childNodes[0]!==undefined?pvc_iptv.childNodes[0].nodeValue:"",
-                        ed_snr.childNodes[0].nodeValue,
-                        eda.childNodes[0].nodeValue,
-                        eusnr.childNodes[0].nodeValue,
-                        eua.childNodes[0].nodeValue,
-                        date.childNodes[0].nodeValue
-                       );
-            }
-        }
-        
-        var stat_dslam = responseXML.getElementsByTagName("dslam_ports_stat")[0];
-
-        if (stat_dslam !== undefined) { //stat_dslam.childNodes.length > 0
-            for (loop = 0; loop < stat_dslam.childNodes.length; loop++) {
-                var ports_row = stat_dslam.childNodes[loop];
-                
-                var total_stat = ports_row.getElementsByTagName("total_stat")[0];
-                var acting_stat = ports_row.getElementsByTagName("acting_stat")[0];
-                var acted_stat = ports_row.getElementsByTagName("acted_stat")[0];
-                var deacted_stat = ports_row.getElementsByTagName("deacted_stat")[0];
-                var nobinds_stat = ports_row.getElementsByTagName("nobinds_stat")[0];
-                
-                document.getElementById("id_ports_total_stat_dslam").innerText = total_stat.childNodes[0].nodeValue;
-                document.getElementById("id_ports_acting_stat_dslam").innerText = acting_stat.childNodes[0].nodeValue;
-                document.getElementById("id_ports_acted_stat_dslam").innerText = acted_stat.childNodes[0].nodeValue;
-                document.getElementById("id_ports_deacted_stat_dslam").innerText = deacted_stat.childNodes[0].nodeValue;
-                document.getElementById("id_ports_nobinds_stat_dslam").innerText = nobinds_stat.childNodes[0].nodeValue;
-
-            }
-        }
-
-        var ports_dslam_adr = responseXML.getElementsByTagName("dslam_ports_adr_dslam")[0];
-
-        if (ports_dslam_adr !== undefined) {
-//            completeTable.setAttribute("bordercolor", "black"); ptime,pheader,pmessage,pserver
-//            completeTable.setAttribute("border", "1");
-            SetColumsNames(1);
-            
-            for (loop = 0; loop < ports_dslam_adr.childNodes.length; loop++) {
-                var ports_row = ports_dslam_adr.childNodes[loop];
-                
-                var adr = ports_row.getElementsByTagName("adres")[0];
-                var host_name = ports_row.getElementsByTagName("host_name")[0];
-                var host = ports_row.getElementsByTagName("host")[0];
-                var port = ports_row.getElementsByTagName("port")[0];
-                var status = ports_row.getElementsByTagName("status")[0];
-                var ip_line = ports_row.getElementsByTagName("ip_line")[0];
-                var profile_line = ports_row.getElementsByTagName("profile_line")[0];
-                var profile_iptv = ports_row.getElementsByTagName("profile_iptv")[0];
-                var vlan_line = ports_row.getElementsByTagName("vlan_line")[0];
-                var pvc_line = ports_row.getElementsByTagName("pvc_line")[0];
-                var vlan_iptv = ports_row.getElementsByTagName("vlan_iptv")[0];
-                var pvc_iptv = ports_row.getElementsByTagName("pvc_iptv")[0];
-                var ed_snr = ports_row.getElementsByTagName("ed_snr")[0];
-                var eda = ports_row.getElementsByTagName("eda")[0];
-                var eusnr = ports_row.getElementsByTagName("eusnr")[0];
-                var eua = ports_row.getElementsByTagName("eua")[0];
-                var date = ports_row.getElementsByTagName("date")[0];
-                
-                appendRow_ports_dslam(
-                        adr.childNodes[0].nodeValue!==undefined?adr.childNodes[0].nodeValue:"",
-                        host_name.childNodes[0].nodeValue,
-                        host.childNodes[0].nodeValue,
-                        port.childNodes[0].nodeValue,
-                        status.childNodes[0].nodeValue,
-                        ip_line.childNodes[0].nodeValue,
-                        profile_line.childNodes[0].nodeValue,
-                        profile_iptv.childNodes[0]!==undefined?profile_iptv.childNodes[0].nodeValue:"",
-                        vlan_line.childNodes[0].nodeValue,
-                        pvc_line.childNodes[0].nodeValue,
-                        vlan_iptv.childNodes[0]!==undefined?vlan_iptv.childNodes[0].nodeValue:"",
-                        pvc_iptv.childNodes[0]!==undefined?pvc_iptv.childNodes[0].nodeValue:"",
-                        ed_snr.childNodes[0].nodeValue,
-                        eda.childNodes[0].nodeValue,
-                        eusnr.childNodes[0].nodeValue,
-                        eua.childNodes[0].nodeValue,
-                        date.childNodes[0].nodeValue
-                       );
-            }
-        }
-
-        var dup_binds_dslam = responseXML.getElementsByTagName("dslam_dup_binds")[0];
-
-        if (dup_binds_dslam !== undefined) {
-//            completeTable.setAttribute("bordercolor", "black"); ptime,pheader,pmessage,pserver
-//            completeTable.setAttribute("border", "1");
-            SetColumsNames(2);
-            
-            for (loop = 0; loop < dup_binds_dslam.childNodes.length; loop++) {
-                var binds_row = dup_binds_dslam.childNodes[loop];
-                
-                var host_name = binds_row.getElementsByTagName("host_name")[0];
-                var host = binds_row.getElementsByTagName("host")[0];
-                var port = binds_row.getElementsByTagName("port")[0];
-                var status = binds_row.getElementsByTagName("status")[0];
-                var ip_line = binds_row.getElementsByTagName("ip_line")[0];
-                var date = binds_row.getElementsByTagName("date")[0];
-                
-                appendRow_dup_binds_dslam(
-                        host_name.childNodes[0]!==undefined?host_name.childNodes[0].nodeValue:"",
-                        host.childNodes[0].nodeValue,
-                        port.childNodes[0].nodeValue,
-                        status.childNodes[0].nodeValue,
-                        ip_line.childNodes[0]!==undefined?ip_line.childNodes[0].nodeValue:"",
-                        date.childNodes[0].nodeValue
-                       );
-            }
-        }
-
-
-        var svod_dslam = responseXML.getElementsByTagName("dslam_svod")[0];
-
-        if (svod_dslam !== undefined) {
-//            completeTable.setAttribute("bordercolor", "black"); ptime,pheader,pmessage,pserver
-//            completeTable.setAttribute("border", "1");
-            SetColumsNames(3);
-            
-            for (loop = 0; loop < svod_dslam.childNodes.length; loop++) {
-                var svod_row = svod_dslam.childNodes[loop];
-                
-                var host_name = svod_row.getElementsByTagName("host_name")[0];
-                var host = svod_row.getElementsByTagName("host")[0];
-                var act = svod_row.getElementsByTagName("act")[0];
-                var inact = svod_row.getElementsByTagName("inact")[0];
-                var dis = svod_row.getElementsByTagName("dis")[0];
-                var tot = svod_row.getElementsByTagName("tot")[0];
-                var nob = svod_row.getElementsByTagName("nob")[0];
-                
-                appendRow_svod_dslam(
-                        host_name.childNodes[0].nodeValue,
-                        host.childNodes[0].nodeValue,
-                        act.childNodes[0].nodeValue,
-                        inact.childNodes[0].nodeValue,
-                        dis.childNodes[0].nodeValue,
-                        tot.childNodes[0].nodeValue,
-                        nob.childNodes[0].nodeValue
-                       );
-            }
-        }
-
-    }
-}
-
-function appendRow_ports_dslam(padres,phost_name,phost, pport, pstatus, pip_line,pprofile_line,pprofile_iptv,pvlan_line,ppvc_line,pvlan_iptv,ppvc_iptv,ped_snr,peda,peusnr,peua,pdate) {
-
-    var row = document.createElement("tr");
-
-    if (padres!=="") {
-        var td_adr = document.createElement("td");
-        td_adr.style = "padding-left:5px;";
-        td_adr.appendChild(document.createTextNode(padres));
-        row.appendChild(td_adr);
-    }
-    
-    var td_host_name = document.createElement("td");
-    td_host_name.style = "padding-left:5px;";
-    td_host_name.appendChild(document.createTextNode(phost_name));
-    row.appendChild(td_host_name);
-
-    var td_host = document.createElement("td");
-    td_host.style = "padding-left:5px;";
-    td_host.appendChild(document.createTextNode(phost));
-    row.appendChild(td_host);
-
-    var td_port = document.createElement("td");
-    td_port.style = "padding-left:5px;";
-    td_port.appendChild(document.createTextNode(pport));
-    row.appendChild(td_port);
-
-    var td_status = document.createElement("td");
-    td_status.style = "padding-left:5px;";
-    td_status.appendChild(document.createTextNode(pstatus));
-    row.appendChild(td_status);
-
-    var td_ip_line = document.createElement("td");
-    td_ip_line.style = "padding-left:5px;";
-    td_ip_line.appendChild(document.createTextNode(pip_line));
-    row.appendChild(td_ip_line);
-
-    var td_profile_line = document.createElement("td");
-    td_profile_line.style = "padding-left:5px;";
-    td_profile_line.appendChild(document.createTextNode(pprofile_line));
-    row.appendChild(td_profile_line);
-
-    var td_profile_iptv = document.createElement("td");
-    td_profile_iptv.style = "padding-left:5px;";
-    td_profile_iptv.appendChild(document.createTextNode(pprofile_iptv));
-    row.appendChild(td_profile_iptv);
-
-    var td_vlan_line = document.createElement("td");
-    td_vlan_line.style = "padding-left:5px;";
-    td_vlan_line.appendChild(document.createTextNode(pvlan_line));
-    row.appendChild(td_vlan_line);
-
-    var td_pvc_line = document.createElement("td");
-    td_pvc_line.style = "padding-left:5px;";
-    td_pvc_line.appendChild(document.createTextNode(ppvc_line));
-    row.appendChild(td_pvc_line);
-
-    var td_vlan_iptv = document.createElement("td");
-    td_vlan_iptv.style = "padding-left:5px;";
-    td_vlan_iptv.appendChild(document.createTextNode(pvlan_iptv));
-    row.appendChild(td_vlan_iptv);
-
-    var td_pvc_iptv = document.createElement("td");
-    td_pvc_iptv.style = "padding-left:5px;";
-    td_pvc_iptv.appendChild(document.createTextNode(ppvc_iptv));
-    row.appendChild(td_pvc_iptv);
-
-    var td_ed_snr = document.createElement("td");
-    td_ed_snr.style = "padding-left:5px;";
-    td_ed_snr.appendChild(document.createTextNode(ped_snr));
-    row.appendChild(td_ed_snr);
-
-    var td_eda = document.createElement("td");
-    td_eda.style = "padding-left:5px;";
-    td_eda.appendChild(document.createTextNode(peda));
-    row.appendChild(td_eda);
-
-    var td_eusnr = document.createElement("td");
-    td_eusnr.style = "padding-left:5px;";
-    td_eusnr.appendChild(document.createTextNode(peusnr));
-    row.appendChild(td_eusnr);
-
-    var td_eua = document.createElement("td");
-    td_eua.style = "padding-left:5px;";
-    td_eua.appendChild(document.createTextNode(peua));
-    row.appendChild(td_eua);
-
-    var td_date = document.createElement("td");
-    td_date.style = "padding-left:5px;";
-    td_date.appendChild(document.createTextNode(pdate));
-    row.appendChild(td_date);
-
-    ResTable_dslam.appendChild(row);
-    //document.getElementById(c.id).onclick=chk_changed_abon_call_nofif(ptel);
-
-}
-
-function SetColumsNames(view){
-    var row = document.createElement('tr');
-    row.style.backgroundColor = "#D1EEEE";
-    if (view===1) {
-        var td_adres = document.createElement("th");
-        td_adres.style = "padding-left:5px;";
-        td_adres.appendChild(document.createTextNode("Адрес"));
-        row.appendChild(td_adres);
-    }
-    var td_host_name = document.createElement("th");
-    td_host_name.style = "padding-left:5px;";
-    td_host_name.appendChild(document.createTextNode("Имя Хоста"));
-    row.appendChild(td_host_name);
-
-    var td_host = document.createElement("th");
-    td_host.style = "padding-left:5px;";
-    td_host.appendChild(document.createTextNode("Хост"));
-    row.appendChild(td_host);
-
-    if (view!==3) {
-        var td_port = document.createElement("th");
-        td_port.style = "padding-left:5px;";
-        td_port.appendChild(document.createTextNode("Порт"));
-        row.appendChild(td_port);
-
-        var td_status = document.createElement("th");
-        td_status.style = "padding-left:5px;";
-        td_status.appendChild(document.createTextNode("Статус"));
-        row.appendChild(td_status);
-
-        var td_ip_line = document.createElement("th");
-        td_ip_line.style = "padding-left:5px;";
-        td_ip_line.appendChild(document.createTextNode("Бинды"));
-        row.appendChild(td_ip_line);
-
-        if (view !== 2) {
-            var td_profile_line = document.createElement("th");
-            td_profile_line.style = "padding-left:5px;";
-            td_profile_line.appendChild(document.createTextNode("Профиль"));
-            row.appendChild(td_profile_line);
-
-            var td_profile_iptv = document.createElement("th");
-            td_profile_iptv.style = "padding-left:5px;";
-            td_profile_iptv.appendChild(document.createTextNode("Профили iptv"));
-            row.appendChild(td_profile_iptv);
-
-            var td_vlan_line = document.createElement("th");
-            td_vlan_line.style = "padding-left:5px;";
-            td_vlan_line.appendChild(document.createTextNode("VLAN линии"));
-            row.appendChild(td_vlan_line);
-
-            var td_pvc_line = document.createElement("th");
-            td_pvc_line.style = "padding-left:5px;";
-            td_pvc_line.appendChild(document.createTextNode("PVC линии"));
-            row.appendChild(td_pvc_line);
-
-            var td_vlan_iptv = document.createElement("th");
-            td_vlan_iptv.style = "padding-left:5px;";
-            td_vlan_iptv.appendChild(document.createTextNode("VLAN iptv"));
-            row.appendChild(td_vlan_iptv);
-
-            var td_pvc_iptv = document.createElement("th");
-            td_pvc_iptv.style = "padding-left:5px;";
-            td_pvc_iptv.appendChild(document.createTextNode("PVC iptv"));
-            row.appendChild(td_pvc_iptv);
-
-            var td_ed_snr = document.createElement("th");
-            td_ed_snr.style = "padding-left:5px;";
-            td_ed_snr.appendChild(document.createTextNode("Down SNR"));
-            row.appendChild(td_ed_snr);
-
-            var td_eda = document.createElement("th");
-            td_eda.style = "padding-left:5px;";
-            td_eda.appendChild(document.createTextNode("Down ATTEN"));
-            row.appendChild(td_eda);
-
-            var td_eusnr = document.createElement("th");
-            td_eusnr.style = "padding-left:5px;";
-            td_eusnr.appendChild(document.createTextNode("Up SNR"));
-            row.appendChild(td_eusnr);
-
-            var td_eua = document.createElement("th");
-            td_eua.style = "padding-left:5px;";
-            td_eua.appendChild(document.createTextNode("Up ATTEN"));
-            row.appendChild(td_eua);
-        }
-        var td_date = document.createElement("th");
-        td_date.style = "padding-left:5px;";
-        td_date.appendChild(document.createTextNode("Дата обновления"));
-        row.appendChild(td_date);
-    }
-    else {
-        var td_act = document.createElement("th");
-        td_act.style = "padding-left:5px;";
-        td_act.appendChild(document.createTextNode("Кол-во активных портов"));
-        row.appendChild(td_act);        
-        
-        var td_inact = document.createElement("th");
-        td_inact.style = "padding-left:5px;";
-        td_inact.appendChild(document.createTextNode("Кол-во неактивных портов"));
-        row.appendChild(td_inact);        
-        
-        var td_dis= document.createElement("th");
-        td_dis.style = "padding-left:5px;";
-        td_dis.appendChild(document.createTextNode("Кол-во отключенных портов"));
-        row.appendChild(td_dis);        
-        
-        var td_tot = document.createElement("th");
-        td_tot.style = "padding-left:5px;";
-        td_tot.appendChild(document.createTextNode("Общее число портов"));
-        row.appendChild(td_tot);        
-        
-        var td_nob = document.createElement("th");
-        td_nob.style = "padding-left:5px;";
-        td_nob.appendChild(document.createTextNode("Портов без ip bind"));
-        row.appendChild(td_nob);        
-    }
-    ResTable_dslam.appendChild(row);
-    
-}
+//function find_dslam(){
+//    var url = "dslam_get?action=find_dslam_ports&s_dt_dslam=" + escape(sdtField_dslam.value) +
+//            "&e_dt_dslam=" + escape(edtField_dslam.value) +
+//            "&chk_arch_dslam=" + escape(archField_dslam.checked) +
+//            "&chk_no_binds_dslam=" + escape(NoBindsField_dslam.checked) +
+//            "&ed_host_dslam=" + escape(HostField_dslam.value) +
+//            "&ed_port_dslam=" + escape(PortField_dslam.value) +
+//            "&ed_bind_dslam=" + escape(BindField_dslam.value) +
+//            "&ed_adres_dslam=" + AdresField_dslam.value +
+//            "&ed_dom_dslam=" + escape(DomField_dslam.value); 
+//
+//    req_dslam = initRequest();
+//    req_dslam.open("GET", url, true);
+//    req_dslam.onreadystatechange = callback_find_dslam;
+//    req_dslam.send(null);   
+//}
+//
+//function callback_find_dslam(){
+//    clearTable_dslam();
+//    if (req_dslam.readyState === 4) {
+//        if (req_dslam.status === 200) {
+//            parseMessages_dslam(req_dslam.responseXML);
+//        }
+//    }
+//}
+//
+//function clearTable_dslam(){
+//    if (ResTable_dslam.getElementsByTagName("tr").length > 0) {
+//        //ResTableDhcpo.style.display = 'none';
+//        for (loop = ResTable_dslam.childNodes.length - 1; loop >= 1; loop--) {
+//            ResTable_dslam.removeChild(ResTable_dslam.childNodes[loop]);
+//        }
+//    }    
+//}
+//
+//function parseMessages_dslam(responseXML) {
+//    if (responseXML == null) {
+//        return false;
+//    } else {
+////        var ports_dslam = responseXML.getElementsByTagName("dslam_ports_dslam")[0];
+//        var ports_dslam = responseXML.getElementsByTagName("dslam_ports_list")[0];
+//
+//        if (ports_dslam !== undefined) {
+////            completeTable.setAttribute("bordercolor", "black"); ptime,pheader,pmessage,pserver
+////            completeTable.setAttribute("border", "1");
+//            SetColumsNames(0);
+//            
+//            for (loop = 0; loop < ports_dslam.childNodes.length; loop++) {
+//                var ports_row = ports_dslam.childNodes[loop];
+//                
+//                var host_name = ports_row.getElementsByTagName("host_name")[0];
+//                var host = ports_row.getElementsByTagName("host")[0];
+//                var port = ports_row.getElementsByTagName("port")[0];
+//                var status = ports_row.getElementsByTagName("status")[0];
+//                var ip_line = ports_row.getElementsByTagName("ip_line")[0];
+//                var profile_line = ports_row.getElementsByTagName("profile_line")[0];
+//                var profile_iptv = ports_row.getElementsByTagName("profile_iptv")[0];
+//                var vlan_line = ports_row.getElementsByTagName("vlan_line")[0];
+//                var pvc_line = ports_row.getElementsByTagName("pvc_line")[0];
+//                var vlan_iptv = ports_row.getElementsByTagName("vlan_iptv")[0];
+//                var pvc_iptv = ports_row.getElementsByTagName("pvc_iptv")[0];
+//                var ed_snr = ports_row.getElementsByTagName("ed_snr")[0];
+//                var eda = ports_row.getElementsByTagName("eda")[0];
+//                var eusnr = ports_row.getElementsByTagName("eusnr")[0];
+//                var eua = ports_row.getElementsByTagName("eua")[0];
+//                var date = ports_row.getElementsByTagName("date")[0];
+//                
+//                appendRow_ports_dslam("",
+//                        host_name.childNodes[0].nodeValue,
+//                        host.childNodes[0].nodeValue,
+//                        port.childNodes[0].nodeValue,
+//                        status.childNodes[0].nodeValue,
+//                        ip_line.childNodes[0].nodeValue,
+//                        profile_line.childNodes[0].nodeValue,
+//                        profile_iptv.childNodes[0]!==undefined?profile_iptv.childNodes[0].nodeValue:"",
+//                        vlan_line.childNodes[0].nodeValue,
+//                        pvc_line.childNodes[0].nodeValue,
+//                        vlan_iptv.childNodes[0]!==undefined?vlan_iptv.childNodes[0].nodeValue:"",
+//                        pvc_iptv.childNodes[0]!==undefined?pvc_iptv.childNodes[0].nodeValue:"",
+//                        ed_snr.childNodes[0].nodeValue,
+//                        eda.childNodes[0].nodeValue,
+//                        eusnr.childNodes[0].nodeValue,
+//                        eua.childNodes[0].nodeValue,
+//                        date.childNodes[0].nodeValue
+//                       );
+//            }
+//        }
+//        
+//        var stat_dslam = responseXML.getElementsByTagName("dslam_ports_stat")[0];
+//
+//        if (stat_dslam !== undefined) { //stat_dslam.childNodes.length > 0
+//            for (loop = 0; loop < stat_dslam.childNodes.length; loop++) {
+//                var ports_row = stat_dslam.childNodes[loop];
+//                
+//                var total_stat = ports_row.getElementsByTagName("total_stat")[0];
+//                var acting_stat = ports_row.getElementsByTagName("acting_stat")[0];
+//                var acted_stat = ports_row.getElementsByTagName("acted_stat")[0];
+//                var deacted_stat = ports_row.getElementsByTagName("deacted_stat")[0];
+//                var nobinds_stat = ports_row.getElementsByTagName("nobinds_stat")[0];
+//                
+//                document.getElementById("id_ports_total_stat_dslam").innerText = total_stat.childNodes[0].nodeValue;
+//                document.getElementById("id_ports_acting_stat_dslam").innerText = acting_stat.childNodes[0].nodeValue;
+//                document.getElementById("id_ports_acted_stat_dslam").innerText = acted_stat.childNodes[0].nodeValue;
+//                document.getElementById("id_ports_deacted_stat_dslam").innerText = deacted_stat.childNodes[0].nodeValue;
+//                document.getElementById("id_ports_nobinds_stat_dslam").innerText = nobinds_stat.childNodes[0].nodeValue;
+//
+//            }
+//        }
+//
+//        var ports_dslam_adr = responseXML.getElementsByTagName("dslam_ports_adr_dslam")[0];
+//
+//        if (ports_dslam_adr !== undefined) {
+////            completeTable.setAttribute("bordercolor", "black"); ptime,pheader,pmessage,pserver
+////            completeTable.setAttribute("border", "1");
+//            SetColumsNames(1);
+//            
+//            for (loop = 0; loop < ports_dslam_adr.childNodes.length; loop++) {
+//                var ports_row = ports_dslam_adr.childNodes[loop];
+//                
+//                var adr = ports_row.getElementsByTagName("adres")[0];
+//                var host_name = ports_row.getElementsByTagName("host_name")[0];
+//                var host = ports_row.getElementsByTagName("host")[0];
+//                var port = ports_row.getElementsByTagName("port")[0];
+//                var status = ports_row.getElementsByTagName("status")[0];
+//                var ip_line = ports_row.getElementsByTagName("ip_line")[0];
+//                var profile_line = ports_row.getElementsByTagName("profile_line")[0];
+//                var profile_iptv = ports_row.getElementsByTagName("profile_iptv")[0];
+//                var vlan_line = ports_row.getElementsByTagName("vlan_line")[0];
+//                var pvc_line = ports_row.getElementsByTagName("pvc_line")[0];
+//                var vlan_iptv = ports_row.getElementsByTagName("vlan_iptv")[0];
+//                var pvc_iptv = ports_row.getElementsByTagName("pvc_iptv")[0];
+//                var ed_snr = ports_row.getElementsByTagName("ed_snr")[0];
+//                var eda = ports_row.getElementsByTagName("eda")[0];
+//                var eusnr = ports_row.getElementsByTagName("eusnr")[0];
+//                var eua = ports_row.getElementsByTagName("eua")[0];
+//                var date = ports_row.getElementsByTagName("date")[0];
+//                
+//                appendRow_ports_dslam(
+//                        adr.childNodes[0].nodeValue!==undefined?adr.childNodes[0].nodeValue:"",
+//                        host_name.childNodes[0].nodeValue,
+//                        host.childNodes[0].nodeValue,
+//                        port.childNodes[0].nodeValue,
+//                        status.childNodes[0].nodeValue,
+//                        ip_line.childNodes[0].nodeValue,
+//                        profile_line.childNodes[0].nodeValue,
+//                        profile_iptv.childNodes[0]!==undefined?profile_iptv.childNodes[0].nodeValue:"",
+//                        vlan_line.childNodes[0].nodeValue,
+//                        pvc_line.childNodes[0].nodeValue,
+//                        vlan_iptv.childNodes[0]!==undefined?vlan_iptv.childNodes[0].nodeValue:"",
+//                        pvc_iptv.childNodes[0]!==undefined?pvc_iptv.childNodes[0].nodeValue:"",
+//                        ed_snr.childNodes[0].nodeValue,
+//                        eda.childNodes[0].nodeValue,
+//                        eusnr.childNodes[0].nodeValue,
+//                        eua.childNodes[0].nodeValue,
+//                        date.childNodes[0].nodeValue
+//                       );
+//            }
+//        }
+//
+//        var dup_binds_dslam = responseXML.getElementsByTagName("dslam_dup_binds")[0];
+//
+//        if (dup_binds_dslam !== undefined) {
+////            completeTable.setAttribute("bordercolor", "black"); ptime,pheader,pmessage,pserver
+////            completeTable.setAttribute("border", "1");
+//            SetColumsNames(2);
+//            
+//            for (loop = 0; loop < dup_binds_dslam.childNodes.length; loop++) {
+//                var binds_row = dup_binds_dslam.childNodes[loop];
+//                
+//                var host_name = binds_row.getElementsByTagName("host_name")[0];
+//                var host = binds_row.getElementsByTagName("host")[0];
+//                var port = binds_row.getElementsByTagName("port")[0];
+//                var status = binds_row.getElementsByTagName("status")[0];
+//                var ip_line = binds_row.getElementsByTagName("ip_line")[0];
+//                var date = binds_row.getElementsByTagName("date")[0];
+//                
+//                appendRow_dup_binds_dslam(
+//                        host_name.childNodes[0]!==undefined?host_name.childNodes[0].nodeValue:"",
+//                        host.childNodes[0].nodeValue,
+//                        port.childNodes[0].nodeValue,
+//                        status.childNodes[0].nodeValue,
+//                        ip_line.childNodes[0]!==undefined?ip_line.childNodes[0].nodeValue:"",
+//                        date.childNodes[0].nodeValue
+//                       );
+//            }
+//        }
+//
+//
+//        var svod_dslam = responseXML.getElementsByTagName("dslam_svod")[0];
+//
+//        if (svod_dslam !== undefined) {
+////            completeTable.setAttribute("bordercolor", "black"); ptime,pheader,pmessage,pserver
+////            completeTable.setAttribute("border", "1");
+//            SetColumsNames(3);
+//            
+//            for (loop = 0; loop < svod_dslam.childNodes.length; loop++) {
+//                var svod_row = svod_dslam.childNodes[loop];
+//                
+//                var host_name = svod_row.getElementsByTagName("host_name")[0];
+//                var host = svod_row.getElementsByTagName("host")[0];
+//                var act = svod_row.getElementsByTagName("act")[0];
+//                var inact = svod_row.getElementsByTagName("inact")[0];
+//                var dis = svod_row.getElementsByTagName("dis")[0];
+//                var tot = svod_row.getElementsByTagName("tot")[0];
+//                var nob = svod_row.getElementsByTagName("nob")[0];
+//                
+//                appendRow_svod_dslam(
+//                        host_name.childNodes[0].nodeValue,
+//                        host.childNodes[0].nodeValue,
+//                        act.childNodes[0].nodeValue,
+//                        inact.childNodes[0].nodeValue,
+//                        dis.childNodes[0].nodeValue,
+//                        tot.childNodes[0].nodeValue,
+//                        nob.childNodes[0].nodeValue
+//                       );
+//            }
+//        }
+//
+//    }
+//}
+//
+//function appendRow_ports_dslam(padres,phost_name,phost, pport, pstatus, pip_line,pprofile_line,pprofile_iptv,pvlan_line,ppvc_line,pvlan_iptv,ppvc_iptv,ped_snr,peda,peusnr,peua,pdate) {
+//
+//    var row = document.createElement("tr");
+//
+//    if (padres!=="") {
+//        var td_adr = document.createElement("td");
+//        td_adr.style = "padding-left:5px;";
+//        td_adr.appendChild(document.createTextNode(padres));
+//        row.appendChild(td_adr);
+//    }
+//    
+//    var td_host_name = document.createElement("td");
+//    td_host_name.style = "padding-left:5px;";
+//    td_host_name.appendChild(document.createTextNode(phost_name));
+//    row.appendChild(td_host_name);
+//
+//    var td_host = document.createElement("td");
+//    td_host.style = "padding-left:5px;";
+//    td_host.appendChild(document.createTextNode(phost));
+//    row.appendChild(td_host);
+//
+//    var td_port = document.createElement("td");
+//    td_port.style = "padding-left:5px;";
+//    td_port.appendChild(document.createTextNode(pport));
+//    row.appendChild(td_port);
+//
+//    var td_status = document.createElement("td");
+//    td_status.style = "padding-left:5px;";
+//    td_status.appendChild(document.createTextNode(pstatus));
+//    row.appendChild(td_status);
+//
+//    var td_ip_line = document.createElement("td");
+//    td_ip_line.style = "padding-left:5px;";
+//    td_ip_line.appendChild(document.createTextNode(pip_line));
+//    row.appendChild(td_ip_line);
+//
+//    var td_profile_line = document.createElement("td");
+//    td_profile_line.style = "padding-left:5px;";
+//    td_profile_line.appendChild(document.createTextNode(pprofile_line));
+//    row.appendChild(td_profile_line);
+//
+//    var td_profile_iptv = document.createElement("td");
+//    td_profile_iptv.style = "padding-left:5px;";
+//    td_profile_iptv.appendChild(document.createTextNode(pprofile_iptv));
+//    row.appendChild(td_profile_iptv);
+//
+//    var td_vlan_line = document.createElement("td");
+//    td_vlan_line.style = "padding-left:5px;";
+//    td_vlan_line.appendChild(document.createTextNode(pvlan_line));
+//    row.appendChild(td_vlan_line);
+//
+//    var td_pvc_line = document.createElement("td");
+//    td_pvc_line.style = "padding-left:5px;";
+//    td_pvc_line.appendChild(document.createTextNode(ppvc_line));
+//    row.appendChild(td_pvc_line);
+//
+//    var td_vlan_iptv = document.createElement("td");
+//    td_vlan_iptv.style = "padding-left:5px;";
+//    td_vlan_iptv.appendChild(document.createTextNode(pvlan_iptv));
+//    row.appendChild(td_vlan_iptv);
+//
+//    var td_pvc_iptv = document.createElement("td");
+//    td_pvc_iptv.style = "padding-left:5px;";
+//    td_pvc_iptv.appendChild(document.createTextNode(ppvc_iptv));
+//    row.appendChild(td_pvc_iptv);
+//
+//    var td_ed_snr = document.createElement("td");
+//    td_ed_snr.style = "padding-left:5px;";
+//    td_ed_snr.appendChild(document.createTextNode(ped_snr));
+//    row.appendChild(td_ed_snr);
+//
+//    var td_eda = document.createElement("td");
+//    td_eda.style = "padding-left:5px;";
+//    td_eda.appendChild(document.createTextNode(peda));
+//    row.appendChild(td_eda);
+//
+//    var td_eusnr = document.createElement("td");
+//    td_eusnr.style = "padding-left:5px;";
+//    td_eusnr.appendChild(document.createTextNode(peusnr));
+//    row.appendChild(td_eusnr);
+//
+//    var td_eua = document.createElement("td");
+//    td_eua.style = "padding-left:5px;";
+//    td_eua.appendChild(document.createTextNode(peua));
+//    row.appendChild(td_eua);
+//
+//    var td_date = document.createElement("td");
+//    td_date.style = "padding-left:5px;";
+//    td_date.appendChild(document.createTextNode(pdate));
+//    row.appendChild(td_date);
+//
+//    ResTable_dslam.appendChild(row);
+//    //document.getElementById(c.id).onclick=chk_changed_abon_call_nofif(ptel);
+//
+//}
+//
+//function SetColumsNames(view){
+//    var row = document.createElement('tr');
+//    row.style.backgroundColor = "#D1EEEE";
+//    if (view===1) {
+//        var td_adres = document.createElement("th");
+//        td_adres.style = "padding-left:5px;";
+//        td_adres.appendChild(document.createTextNode("Адрес"));
+//        row.appendChild(td_adres);
+//    }
+//    var td_host_name = document.createElement("th");
+//    td_host_name.style = "padding-left:5px;";
+//    td_host_name.appendChild(document.createTextNode("Имя Хоста"));
+//    row.appendChild(td_host_name);
+//
+//    var td_host = document.createElement("th");
+//    td_host.style = "padding-left:5px;";
+//    td_host.appendChild(document.createTextNode("Хост"));
+//    row.appendChild(td_host);
+//
+//    if (view!==3) {
+//        var td_port = document.createElement("th");
+//        td_port.style = "padding-left:5px;";
+//        td_port.appendChild(document.createTextNode("Порт"));
+//        row.appendChild(td_port);
+//
+//        var td_status = document.createElement("th");
+//        td_status.style = "padding-left:5px;";
+//        td_status.appendChild(document.createTextNode("Статус"));
+//        row.appendChild(td_status);
+//
+//        var td_ip_line = document.createElement("th");
+//        td_ip_line.style = "padding-left:5px;";
+//        td_ip_line.appendChild(document.createTextNode("Бинды"));
+//        row.appendChild(td_ip_line);
+//
+//        if (view !== 2) {
+//            var td_profile_line = document.createElement("th");
+//            td_profile_line.style = "padding-left:5px;";
+//            td_profile_line.appendChild(document.createTextNode("Профиль"));
+//            row.appendChild(td_profile_line);
+//
+//            var td_profile_iptv = document.createElement("th");
+//            td_profile_iptv.style = "padding-left:5px;";
+//            td_profile_iptv.appendChild(document.createTextNode("Профили iptv"));
+//            row.appendChild(td_profile_iptv);
+//
+//            var td_vlan_line = document.createElement("th");
+//            td_vlan_line.style = "padding-left:5px;";
+//            td_vlan_line.appendChild(document.createTextNode("VLAN линии"));
+//            row.appendChild(td_vlan_line);
+//
+//            var td_pvc_line = document.createElement("th");
+//            td_pvc_line.style = "padding-left:5px;";
+//            td_pvc_line.appendChild(document.createTextNode("PVC линии"));
+//            row.appendChild(td_pvc_line);
+//
+//            var td_vlan_iptv = document.createElement("th");
+//            td_vlan_iptv.style = "padding-left:5px;";
+//            td_vlan_iptv.appendChild(document.createTextNode("VLAN iptv"));
+//            row.appendChild(td_vlan_iptv);
+//
+//            var td_pvc_iptv = document.createElement("th");
+//            td_pvc_iptv.style = "padding-left:5px;";
+//            td_pvc_iptv.appendChild(document.createTextNode("PVC iptv"));
+//            row.appendChild(td_pvc_iptv);
+//
+//            var td_ed_snr = document.createElement("th");
+//            td_ed_snr.style = "padding-left:5px;";
+//            td_ed_snr.appendChild(document.createTextNode("Down SNR"));
+//            row.appendChild(td_ed_snr);
+//
+//            var td_eda = document.createElement("th");
+//            td_eda.style = "padding-left:5px;";
+//            td_eda.appendChild(document.createTextNode("Down ATTEN"));
+//            row.appendChild(td_eda);
+//
+//            var td_eusnr = document.createElement("th");
+//            td_eusnr.style = "padding-left:5px;";
+//            td_eusnr.appendChild(document.createTextNode("Up SNR"));
+//            row.appendChild(td_eusnr);
+//
+//            var td_eua = document.createElement("th");
+//            td_eua.style = "padding-left:5px;";
+//            td_eua.appendChild(document.createTextNode("Up ATTEN"));
+//            row.appendChild(td_eua);
+//        }
+//        var td_date = document.createElement("th");
+//        td_date.style = "padding-left:5px;";
+//        td_date.appendChild(document.createTextNode("Дата обновления"));
+//        row.appendChild(td_date);
+//    }
+//    else {
+//        var td_act = document.createElement("th");
+//        td_act.style = "padding-left:5px;";
+//        td_act.appendChild(document.createTextNode("Кол-во активных портов"));
+//        row.appendChild(td_act);        
+//        
+//        var td_inact = document.createElement("th");
+//        td_inact.style = "padding-left:5px;";
+//        td_inact.appendChild(document.createTextNode("Кол-во неактивных портов"));
+//        row.appendChild(td_inact);        
+//        
+//        var td_dis= document.createElement("th");
+//        td_dis.style = "padding-left:5px;";
+//        td_dis.appendChild(document.createTextNode("Кол-во отключенных портов"));
+//        row.appendChild(td_dis);        
+//        
+//        var td_tot = document.createElement("th");
+//        td_tot.style = "padding-left:5px;";
+//        td_tot.appendChild(document.createTextNode("Общее число портов"));
+//        row.appendChild(td_tot);        
+//        
+//        var td_nob = document.createElement("th");
+//        td_nob.style = "padding-left:5px;";
+//        td_nob.appendChild(document.createTextNode("Портов без ip bind"));
+//        row.appendChild(td_nob);        
+//    }
+//    ResTable_dslam.appendChild(row);
+//    
+//}
 
 function ip_onfocus_dslam(){
     AdresField_dslam.value = "";
@@ -1365,114 +1365,114 @@ function Set_nobinds_dslam() {
     }
  }
  
- function find_dup_binds_dslam() {
-     
-    var url = "dslam_get?action=find_dslam_dup_binds&s_dt_dslam=" + escape(sdtField_dslam.value) +
-            "&e_dt_dslam=" + escape(edtField_dslam.value) +
-            "&chk_arch_dslam=" + escape(archField_dslam.checked) +
-            "&ed_host_dslam=" + escape(HostField_dslam.value) +
-            "&ed_bind_dslam=" + escape(BindField_dslam.value);
+// function find_dup_binds_dslam() {
+//     
+//    var url = "dslam_get?action=find_dslam_dup_binds&s_dt_dslam=" + escape(sdtField_dslam.value) +
+//            "&e_dt_dslam=" + escape(edtField_dslam.value) +
+//            "&chk_arch_dslam=" + escape(archField_dslam.checked) +
+//            "&ed_host_dslam=" + escape(HostField_dslam.value) +
+//            "&ed_bind_dslam=" + escape(BindField_dslam.value);
+//
+//    req_dslam = initRequest();
+//    req_dslam.open("GET", url, true);
+//    req_dslam.onreadystatechange = callback_find_dslam;
+//    req_dslam.send(null);   
+//     
+//}
+//
+//function appendRow_dup_binds_dslam(phost_name,phost, pport, pstatus, pip_line,pdate) {
+//
+//    var row = document.createElement("tr");
+//
+//    var td_host_name = document.createElement("td");
+//    td_host_name.style = "padding-left:5px;";
+//    td_host_name.appendChild(document.createTextNode(phost_name));
+//    row.appendChild(td_host_name);
+//
+//    var td_host = document.createElement("td");
+//    td_host.style = "padding-left:5px;";
+//    td_host.appendChild(document.createTextNode(phost));
+//    row.appendChild(td_host);
+//
+//    var td_port = document.createElement("td");
+//    td_port.style = "padding-left:5px;";
+//    td_port.appendChild(document.createTextNode(pport));
+//    row.appendChild(td_port);
+//
+//    var td_status = document.createElement("td");
+//    td_status.style = "padding-left:5px;";
+//    td_status.appendChild(document.createTextNode(pstatus));
+//    row.appendChild(td_status);
+//
+//    var td_ip_line = document.createElement("td");
+//    td_ip_line.style = "padding-left:5px;";
+//    td_ip_line.appendChild(document.createTextNode(pip_line));
+//    row.appendChild(td_ip_line);
+//
+//    var td_date = document.createElement("td");
+//    td_date.style = "padding-left:5px;";
+//    td_date.appendChild(document.createTextNode(pdate));
+//    row.appendChild(td_date);
+//
+//    ResTable_dslam.appendChild(row);
+//    //document.getElementById(c.id).onclick=chk_changed_abon_call_nofif(ptel);
+//
+//}
 
-    req_dslam = initRequest();
-    req_dslam.open("GET", url, true);
-    req_dslam.onreadystatechange = callback_find_dslam;
-    req_dslam.send(null);   
-     
-}
-
-function appendRow_dup_binds_dslam(phost_name,phost, pport, pstatus, pip_line,pdate) {
-
-    var row = document.createElement("tr");
-
-    var td_host_name = document.createElement("td");
-    td_host_name.style = "padding-left:5px;";
-    td_host_name.appendChild(document.createTextNode(phost_name));
-    row.appendChild(td_host_name);
-
-    var td_host = document.createElement("td");
-    td_host.style = "padding-left:5px;";
-    td_host.appendChild(document.createTextNode(phost));
-    row.appendChild(td_host);
-
-    var td_port = document.createElement("td");
-    td_port.style = "padding-left:5px;";
-    td_port.appendChild(document.createTextNode(pport));
-    row.appendChild(td_port);
-
-    var td_status = document.createElement("td");
-    td_status.style = "padding-left:5px;";
-    td_status.appendChild(document.createTextNode(pstatus));
-    row.appendChild(td_status);
-
-    var td_ip_line = document.createElement("td");
-    td_ip_line.style = "padding-left:5px;";
-    td_ip_line.appendChild(document.createTextNode(pip_line));
-    row.appendChild(td_ip_line);
-
-    var td_date = document.createElement("td");
-    td_date.style = "padding-left:5px;";
-    td_date.appendChild(document.createTextNode(pdate));
-    row.appendChild(td_date);
-
-    ResTable_dslam.appendChild(row);
-    //document.getElementById(c.id).onclick=chk_changed_abon_call_nofif(ptel);
-
-}
-
-function svod_dslam() {
-       var url = "dslam_get?action=svod_dslam&s_dt_dslam=" + escape(sdtField_dslam.value) +
-            "&e_dt_dslam=" + escape(edtField_dslam.value) +
-            "&chk_arch_dslam=" + escape(archField_dslam.checked);
-
-    req_dslam = initRequest();
-    req_dslam.open("GET", url, true);
-    req_dslam.onreadystatechange = callback_find_dslam;
-    req_dslam.send(null);    
-}
-
-function appendRow_svod_dslam(phost_name,phost,pact,pinact,pdis,ptot,pnob) {
-
-    var row = document.createElement("tr");
-
-    var td_host_name = document.createElement("td");
-    td_host_name.style = "padding-left:5px;";
-    td_host_name.appendChild(document.createTextNode(phost_name));
-    row.appendChild(td_host_name);
-
-    var td_host = document.createElement("td");
-    td_host.style = "padding-left:5px;";
-    td_host.appendChild(document.createTextNode(phost));
-    row.appendChild(td_host);
-
-    var td_act = document.createElement("td");
-    td_act.style = "padding-left:5px;";
-    td_act.appendChild(document.createTextNode(pact));
-    row.appendChild(td_act);
-
-    var td_inact = document.createElement("td");
-    td_inact.style = "padding-left:5px;";
-    td_inact.appendChild(document.createTextNode(pinact));
-    row.appendChild(td_inact);
-
-    var td_dis = document.createElement("td");
-    td_dis.style = "padding-left:5px;";
-    td_dis.appendChild(document.createTextNode(pdis));
-    row.appendChild(td_dis);
-
-    var td_tot = document.createElement("td");
-    td_tot.style = "padding-left:5px;";
-    td_tot.appendChild(document.createTextNode(ptot));
-    row.appendChild(td_tot);
-
-    var td_nob = document.createElement("td");
-    td_nob.style = "padding-left:5px;";
-    td_nob.appendChild(document.createTextNode(pnob));
-    row.appendChild(td_nob);
-
-    ResTable_dslam.appendChild(row);
-    //document.getElementById(c.id).onclick=chk_changed_abon_call_nofif(ptel);
-
-}
+//function svod_dslam() {
+//       var url = "dslam_get?action=svod_dslam&s_dt_dslam=" + escape(sdtField_dslam.value) +
+//            "&e_dt_dslam=" + escape(edtField_dslam.value) +
+//            "&chk_arch_dslam=" + escape(archField_dslam.checked);
+//
+//    req_dslam = initRequest();
+//    req_dslam.open("GET", url, true);
+//    req_dslam.onreadystatechange = callback_find_dslam;
+//    req_dslam.send(null);    
+//}
+//
+//function appendRow_svod_dslam(phost_name,phost,pact,pinact,pdis,ptot,pnob) {
+//
+//    var row = document.createElement("tr");
+//
+//    var td_host_name = document.createElement("td");
+//    td_host_name.style = "padding-left:5px;";
+//    td_host_name.appendChild(document.createTextNode(phost_name));
+//    row.appendChild(td_host_name);
+//
+//    var td_host = document.createElement("td");
+//    td_host.style = "padding-left:5px;";
+//    td_host.appendChild(document.createTextNode(phost));
+//    row.appendChild(td_host);
+//
+//    var td_act = document.createElement("td");
+//    td_act.style = "padding-left:5px;";
+//    td_act.appendChild(document.createTextNode(pact));
+//    row.appendChild(td_act);
+//
+//    var td_inact = document.createElement("td");
+//    td_inact.style = "padding-left:5px;";
+//    td_inact.appendChild(document.createTextNode(pinact));
+//    row.appendChild(td_inact);
+//
+//    var td_dis = document.createElement("td");
+//    td_dis.style = "padding-left:5px;";
+//    td_dis.appendChild(document.createTextNode(pdis));
+//    row.appendChild(td_dis);
+//
+//    var td_tot = document.createElement("td");
+//    td_tot.style = "padding-left:5px;";
+//    td_tot.appendChild(document.createTextNode(ptot));
+//    row.appendChild(td_tot);
+//
+//    var td_nob = document.createElement("td");
+//    td_nob.style = "padding-left:5px;";
+//    td_nob.appendChild(document.createTextNode(pnob));
+//    row.appendChild(td_nob);
+//
+//    ResTable_dslam.appendChild(row);
+//    //document.getElementById(c.id).onclick=chk_changed_abon_call_nofif(ptel);
+//
+//}
 
 //////////////////////////////////////////////////////////////////////////////
 

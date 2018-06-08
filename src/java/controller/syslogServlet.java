@@ -179,27 +179,48 @@ public class syslogServlet extends HttpServlet {
                         }
                 }
                     boolean logsAdded=false;
-                    if (resultList != null) {
+                    if (resultList.size() != 0) {
                             for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
                                 Object[] next = (Object[]) iterator.next();
-                                sb.append("<log_raw>");
-                                sb.append("<name>" + next[0] + "</name>");
-                                sb.append("<facility>" + next[1] + "</facility>");
-                                sb.append("<level>" + next[2] + "</level>");
-                                sb.append("<host>" + next[3] + "</host>");
-                                sb.append("<date>" + next[4] + "</date>");
-                                sb.append("<message>" + next[5] + "</message>");
-                                sb.append("</log_raw>");
+//                                sb.append("<log_raw>");
+//                                sb.append("<name>" + next[0] + "</name>");
+//                                sb.append("<facility>" + next[1] + "</facility>");
+//                                sb.append("<level>" + next[2] + "</level>");
+//                                sb.append("<host>" + next[3] + "</host>");
+//                                sb.append("<date>" + next[4] + "</date>");
+//                                sb.append("<message>" + next[5] + "</message>");
+//                                sb.append("</log_raw>");
+                                
+                                sb.append("[");
+                                sb.append("\"" + next[0] + "\",");
+                                sb.append("\"" +  next[1] + "\",");
+                                sb.append("\"" +  next[2] + "\",");
+                                sb.append("\"" +  next[3] + "\",");
+                                sb.append("\"" +  next[4] + "\",");
+                                sb.append("\"" +  next[5] + "\"");
+                                sb.append("],");                                   
+                                
                                 logsAdded = true;
                             }
+                            sb = sb.deleteCharAt(sb.length() - 1);
                     }
                     if (logsAdded) {
-                        response.setContentType("text/xml");
-                        response.setHeader("Cache-Control", "no-cache");
-                        response.getWriter().write("<logs_syslog>" + sb.toString() + "</logs_syslog>");
+                        
+                            response.setContentType("application/json");
+                            response.setHeader("Cache-Control", "no-cache");
+                            response.getWriter().write("{\"data\":[" + sb.toString() + "]}");                        
+                        
+//                        response.setContentType("text/xml");
+//                        response.setHeader("Cache-Control", "no-cache");
+//                        response.getWriter().write("<logs_syslog>" + sb.toString() + "</logs_syslog>");
                     } else {
                         //nothing to show
-                        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                        
+                            response.setContentType("application/json");
+                            response.setHeader("Cache-Control", "no-cache");
+                            response.getWriter().write("{\"data\":[]}");                        
+                        
+//                        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
                     }
 //                    request.setAttribute("list_dhcpo", resultList);
 //                    request.setAttribute("ip_attr_dhcpo", ip);
