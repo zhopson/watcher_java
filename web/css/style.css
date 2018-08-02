@@ -118,6 +118,17 @@ body {
     line-height:30px;
     text-decoration:none;
 }
+#left_menu ul li.active{
+    display:block;
+    /*      background-color:#DBDBBE; #80abdb #6699ff */
+    background-color:rgb(170, 221, 200);
+    padding:0 5px 0 15px;
+    font-weight:normal;
+    color:#2F2F20;
+    font-size:15px;
+    line-height:30px;
+    text-decoration:none;
+}
 /*
 #left_menu ul li a span.bg{
         color:#000;

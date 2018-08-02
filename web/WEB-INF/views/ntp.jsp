@@ -14,8 +14,8 @@
     </div>        
     <div class="form-group"></div>
     <div class="form-group" style="padding: 0px 55px 0px 5px;">
-            <button class="btn btn-primary btn-block" id="id_btn_status_ntp">Текущий статус</button>    
-            <button class="btn btn-primary btn-block" id="id_btn_logs_ntp">Логи команд</button>    
+        <button class="btn btn-primary btn-block" id="id_btn_status_ntp">Текущий статус</button>    
+        <button class="btn btn-primary btn-block" id="id_btn_logs_ntp">Логи команд</button>    
     </div>
 </div>        
 <div id="main_area">
@@ -30,7 +30,7 @@
                     <table class="display" id="id_ntp_td"  cellspacing="0" width="100%"  style="font-size:10px;">
                         <thead>
                             <tr class="active">
-<!--                                <th style="width: 280px">Наименование партнера</th>-->
+                                <!--                                <th style="width: 280px">Наименование партнера</th>-->
                                 <th>Дата sql-запроса</th>
                                 <th>Логин</th>
                                 <th>Операция</th>
@@ -53,17 +53,18 @@
     </div>    
 </div>
 <script type="text/javascript">
-    
+
     var table;
-    
-$(document).ready(function () {
 
-$('#id_btn_logs_ntp').click(function () {
-    if ($('#id_ip_ntp').val() !== '') {
-        if (table) table.destroy();
-        
-table = $('#id_ntp_td').DataTable({
-"language": {
+    $(document).ready(function () {
+
+        $('#id_btn_logs_ntp').click(function () {
+            if ($('#id_ip_ntp').val() !== '') {
+                if (table)
+                    table.destroy();
+
+                table = $('#id_ntp_td').DataTable({
+                    "language": {
 //    "columns": [
 //        null,
 //        null,
@@ -71,44 +72,45 @@ table = $('#id_ntp_td').DataTable({
 //        null,
 //        null
 //    ],
-    //"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json",
-    "processing": "Подождите...",
-    "search": "Поиск:",
-    "lengthMenu": "Показать _MENU_ записей",
-    "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
-    "infoEmpty": "Записи с 0 до 0 из 0 записей",
-    "infoFiltered": "(отфильтровано из _MAX_ записей)",
-    "infoPostFix": "",
-    "loadingRecords": "Загрузка записей...",
-    "zeroRecords": "Записи отсутствуют.",
-    "emptyTable": "В таблице отсутствуют данные",
-    "paginate": {
-        "first": "Первая",
-        "previous": "Предыдущая",
-        "next": "Следующая",
-        "last": "Последняя"
-    },
-    "aria": {
-        "sortAscending": ": активировать для сортировки столбца по возрастанию",
-        "sortDescending": ": активировать для сортировки столбца по убыванию"
-    }
-},
-"pageLength": 10,
-"ajax": 'logs_ntp?action=logs&ip=' + escape($('#id_ip_ntp').val()),
-"deferRender": true
-});        
-        
-        
-        //table.ajax.url( 'logs_ntp?action=logs&ip=' + escape($('#id_ip_ntp').val()) ).load();
-    }
-});
+                        //"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json",
+                        "processing": "Подождите...",
+                        "search": "Поиск:",
+                        "lengthMenu": "Показать _MENU_ записей",
+                        "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                        "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                        "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                        "infoPostFix": "",
+                        "loadingRecords": "Загрузка записей...",
+                        "zeroRecords": "Записи отсутствуют.",
+                        "emptyTable": "В таблице отсутствуют данные",
+                        "paginate": {
+                            "first": "Первая",
+                            "previous": "Предыдущая",
+                            "next": "Следующая",
+                            "last": "Последняя"
+                        },
+                        "aria": {
+                            "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                            "sortDescending": ": активировать для сортировки столбца по убыванию"
+                        }
+                    },
+                    "pageLength": 10,
+                    "ajax": 'logs_ntp?action=logs&ip=' + escape($('#id_ip_ntp').val()),
+                    "deferRender": true
+                });
 
-$('#id_btn_status_ntp').click(function () {
-    if ($('#id_ip_ntp').val() !== '') {
-        if (table) table.destroy();
-        
-table = $('#id_ntp_td').DataTable({
-"language": {
+
+                //table.ajax.url( 'logs_ntp?action=logs&ip=' + escape($('#id_ip_ntp').val()) ).load();
+            }
+        });
+
+        $('#id_btn_status_ntp').click(function () {
+            if ($('#id_ip_ntp').val() !== '') {
+                if (table)
+                    table.destroy();
+
+                table = $('#id_ntp_td').DataTable({
+                    "language": {
 //    "columns": [
 //        null,
 //        null,
@@ -116,36 +118,36 @@ table = $('#id_ntp_td').DataTable({
 //        null,
 //        null
 //    ],
-    //"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json",
-    "processing": "Подождите...",
-    "search": "Поиск:",
-    "lengthMenu": "Показать _MENU_ записей",
-    "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
-    "infoEmpty": "Записи с 0 до 0 из 0 записей",
-    "infoFiltered": "(отфильтровано из _MAX_ записей)",
-    "infoPostFix": "",
-    "loadingRecords": "Загрузка записей...",
-    "zeroRecords": "Записи отсутствуют.",
-    "emptyTable": "В таблице отсутствуют данные",
-    "paginate": {
-        "first": "Первая",
-        "previous": "Предыдущая",
-        "next": "Следующая",
-        "last": "Последняя"
-    },
-    "aria": {
-        "sortAscending": ": активировать для сортировки столбца по возрастанию",
-        "sortDescending": ": активировать для сортировки столбца по убыванию"
-    }
-},
-"pageLength": 10,
-"ajax": 'logs_ntp?action=status&ip=' + escape($('#id_ip_ntp').val()),
-"deferRender": true
-});        
-        
-        //table.ajax.url( 'logs_ntp?action=status&ip=' + escape($('#id_ip_ntp').val()) ).load();
-    }
-});
+                        //"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json",
+                        "processing": "Подождите...",
+                        "search": "Поиск:",
+                        "lengthMenu": "Показать _MENU_ записей",
+                        "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                        "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                        "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                        "infoPostFix": "",
+                        "loadingRecords": "Загрузка записей...",
+                        "zeroRecords": "Записи отсутствуют.",
+                        "emptyTable": "В таблице отсутствуют данные",
+                        "paginate": {
+                            "first": "Первая",
+                            "previous": "Предыдущая",
+                            "next": "Следующая",
+                            "last": "Последняя"
+                        },
+                        "aria": {
+                            "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                            "sortDescending": ": активировать для сортировки столбца по убыванию"
+                        }
+                    },
+                    "pageLength": 10,
+                    "ajax": 'logs_ntp?action=status&ip=' + escape($('#id_ip_ntp').val()),
+                    "deferRender": true
+                });
+
+                //table.ajax.url( 'logs_ntp?action=status&ip=' + escape($('#id_ip_ntp').val()) ).load();
+            }
+        });
 
 //$.ajaxSetup({
 //headers: {
@@ -153,8 +155,8 @@ table = $('#id_ntp_td').DataTable({
 //}
 //});
 
-table = $('#id_ntp_td').DataTable({
-"language": {
+        table = $('#id_ntp_td').DataTable({
+            "language": {
 //    "columns": [
 //        null,
 //        null,
@@ -162,32 +164,32 @@ table = $('#id_ntp_td').DataTable({
 //        null,
 //        null
 //    ],
-    //"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json",
-    "processing": "Подождите...",
-    "search": "Поиск:",
-    "lengthMenu": "Показать _MENU_ записей",
-    "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
-    "infoEmpty": "Записи с 0 до 0 из 0 записей",
-    "infoFiltered": "(отфильтровано из _MAX_ записей)",
-    "infoPostFix": "",
-    "loadingRecords": "Загрузка записей...",
-    "zeroRecords": "Записи отсутствуют.",
-    "emptyTable": "В таблице отсутствуют данные",
-    "paginate": {
-        "first": "Первая",
-        "previous": "Предыдущая",
-        "next": "Следующая",
-        "last": "Последняя"
-    },
-    "aria": {
-        "sortAscending": ": активировать для сортировки столбца по возрастанию",
-        "sortDescending": ": активировать для сортировки столбца по убыванию"
-    }
-},
-"pageLength": 10,
+                //"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/German.json",
+                "processing": "Подождите...",
+                "search": "Поиск:",
+                "lengthMenu": "Показать _MENU_ записей",
+                "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                "infoPostFix": "",
+                "loadingRecords": "Загрузка записей...",
+                "zeroRecords": "Записи отсутствуют.",
+                "emptyTable": "В таблице отсутствуют данные",
+                "paginate": {
+                    "first": "Первая",
+                    "previous": "Предыдущая",
+                    "next": "Следующая",
+                    "last": "Последняя"
+                },
+                "aria": {
+                    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                    "sortDescending": ": активировать для сортировки столбца по убыванию"
+                }
+            },
+            "pageLength": 10,
 //"ajax": "/ntp/json",
-"deferRender": true
-});
+            "deferRender": true
+        });
 
-});
+    });
 </script>

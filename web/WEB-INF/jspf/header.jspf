@@ -1,5 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -7,33 +7,35 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Информация с БД</title>
-        <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css?ver=1" type="text/css">
         <link rel="stylesheet" href="css/style.css?3" type="text/css">
-<!--        <link rel="stylesheet" href="css/table.css?4" type="text/css">-->
+        <!--        <link rel="stylesheet" href="css/table.css?4" type="text/css">-->
         <link rel="stylesheet" href="css/jquery.dataTables.min.css?1" type="text/css">
         <script type="text/javascript" src="jquery-3.2.0.min.js"></script>
         <script type="text/javascript" src="css/bootstrap/js/bootstrap.min.js"></script>
-<!--        <script type="text/javascript" src="table.js"></script>-->
+        <!--        <script type="text/javascript" src="table.js"></script>-->
+        <!--        <script type="text/javascript" src="popper.min.js"></script>
+                <script type="text/javascript" src="tooltip.min.js"></script>-->
         <script type="text/javascript" src="jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="common.js?ver=1"></script>
     </head>
     <body onload="init()">
-        
-<div class="modal fade" id="DBReqModal_id" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Информация</h4>
-      </div>
-      <div class="modal-body">
-          <h3 style="padding-left:15px;"><img src="img/wait.gif" alt="">&nbsp;&nbsp; Идет запрос в БД&hellip;</h3>
-      </div>
-      <div class="modal-footer">
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->      
-        
+
+        <div class="modal fade" id="DBReqModal_id" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Информация</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h3 style="padding-left:15px;"><img src="img/wait.gif" alt="">&nbsp;&nbsp; Идет запрос в БД&hellip;</h3>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->      
+
         <div id="header">
             <a href="index.jsp">
                 <img src="img/0391.ico" id="logo_home" alt="">
@@ -42,18 +44,66 @@
             <div class="logoText"> Информация с БД РЦУСС</div>
         </div>
         <div id="left">
-
             <div id="left_menu">
+                <c:set var="url" value="${pageContext.request.requestURL}"/>
                 <ul>
-                    <li><a href="dhcpo">DHCP Optinet</a></li>
-                    <li><a href="syslog">Syslog</a></li>
-                    <li><a href="dslam">DSLAM</a></li>
-                    <li><a href="notifications">Оповещения</a></li>
-                    <li><a href="alarms">Аварии</a></li>
-                    <li><a href="ntp">NTP IP</a></li>
+
+                    <c:choose>
+                        <c:when test="${fn:indexOf(url, 'dhcpo') > -1}">
+                            <li class="active">DHCP Optinet</li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="dhcpo">DHCP Optinet</a></li>
+                            </c:otherwise>
+                        </c:choose>                      
+
+                    <c:choose>
+                        <c:when test="${fn:indexOf(url, 'syslog') > -1}">
+                            <li class="active">Syslog</li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="syslog">Syslog</a></li>
+                            </c:otherwise>
+                        </c:choose>                      
+
+                    <c:choose>
+                        <c:when test="${fn:indexOf(url, 'dslam') > -1}">
+                            <li class="active">DSLAM</li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="dslam">DSLAM</a></li>
+                            </c:otherwise>
+                        </c:choose>                      
+
+                    <c:choose>
+                        <c:when test="${fn:indexOf(url, 'notifications') > -1}">
+                            <li class="active">Оповещения</li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="notifications">Оповещения</a></li>
+                            </c:otherwise>
+                        </c:choose>                      
+
+                    <c:choose>
+                        <c:when test="${fn:indexOf(url, 'alarms') > -1}">
+                            <li class="active">Аварии</li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="alarms">Аварии</a></li>
+                            </c:otherwise>
+                        </c:choose>   
+
+                    <c:choose>
+                        <c:when test="${fn:indexOf(url, 'ntp') > -1}">
+                            <li class="active">NTP IP</li>
+                            </c:when>
+                            <c:otherwise>
+                            <li><a href="ntp">NTP IP</a></li>
+                            </c:otherwise>
+                        </c:choose>                      
                 </ul>
             </div>
         </div>
 
-<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DBReqModal_id">Small modal</button>-->
+        <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DBReqModal_id">Small modal</button>-->
 

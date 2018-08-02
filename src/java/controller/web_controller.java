@@ -24,7 +24,7 @@ import session.SmotrWhatsappGroupsFacade;
  *
  * @author andrey-man
  */
-@WebServlet(name = "web_controller", urlPatterns = {"/alarms", "/dhcpo", "/dslam", "/dslam_s", "/notifications", "/notifications_r", "/notifications_a", "/ntp", "/syslog"})
+@WebServlet(name = "web_controller", urlPatterns = {"/alarms", "/alarms_bigping", "/alarms_bshpd", "/alarms_magports", "/dhcpo", "/dslam", "/dslam_s", "/notifications", "/notifications_r", "/notifications_a", "/ntp", "/syslog"})
 public class web_controller extends HttpServlet {
 
     @EJB

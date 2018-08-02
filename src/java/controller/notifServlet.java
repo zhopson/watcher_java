@@ -65,12 +65,15 @@ public class notifServlet extends HttpServlet {
         String grId = request.getParameter("gr_id");
         StringBuffer sb = new StringBuffer(); 
         
+        em.setProperty("prepareThreshold", 0);
+        em.setProperty("prepared_statements", false);                
+
         if (action.equals("abon_list")) {
             try {
                 List resultList=null;
                 Long GrId = Long.parseLong(grId);
                 boolean namesAdded = false;
-
+                
                 if (GrId==0) {
                     resultList = em.createNamedQuery("SmotrCallerPeople.findByGr0").getResultList();
                     for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
