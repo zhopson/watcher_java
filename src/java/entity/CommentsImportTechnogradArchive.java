@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author andrey-man
  */
 @Entity
-@Table(name = "comments_import_technograd_archive")
+@Table(name = "port_info.comments_import_technograd_archive")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CommentsImportTechnogradArchive.findAll", query = "SELECT c FROM CommentsImportTechnogradArchive c")

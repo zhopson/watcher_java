@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
@@ -20,7 +21,22 @@
         <script type="text/javascript" src="common.js?ver=1"></script>
     </head>
     <body onload="init()">
+        <c:if test="${not empty applicationScope['createtime_session']}">
+<%
+            Date createTime = (Date) getServletContext().getAttribute("createtime_session");
+            Date now = new Date();
 
+            long interval = now.getTime() - createTime.getTime(); // ms
+            long SessionTimeout = 1800;//sess.getMaxInactiveInterval(); // getMaxInactiveInterval in seconds, configured in web.xml in section <session-timeout>
+
+            if (interval > SessionTimeout * 1000) {
+                getServletContext().removeAttribute("session");
+                getServletContext().removeAttribute("createtime_session");
+                getServletContext().removeAttribute("username");            
+            }
+%>            
+        </c:if>
+            
         <div class="modal fade" id="DBReqModal_id" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -42,65 +58,110 @@
             </a>
             <!--     <img src="" id="logoText" alt="Информация с БД Zabbix">-->
             <div class="logoText"> Информация с БД РЦУСС</div>
+            <c:choose>
+                <c:when test="${empty session}">       <%--  <c:when test="${empty username}"> --%>
+                    <div class="pull-right" style='padding-top: 25px; padding-right: 30px;'> <a href="login">Войти</a></div>
+                </c:when>
+                <c:otherwise>
+<!--                    <div class="pull-right" style='padding-top: 25px; padding-right: 30px;'>-->
+                    <ul class="nav navbar-nav navbar-right" style='padding-right: 30px;'>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${session.getAttribute("fio")} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="logout">Выход</a></li>
+<!--                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>-->
+                        </ul>
+                    </li>                    
+                    </ul>    
+
+                    <%---                            <div class="pull-right" style='padding-top: 25px; padding-right: 30px;'> ${username} </div>--%>
+                </c:otherwise>
+            </c:choose>                      
+
         </div>
         <div id="left">
             <div id="left_menu">
                 <c:set var="url" value="${pageContext.request.requestURL}"/>
                 <ul>
 
-                    <c:choose>
-                        <c:when test="${fn:indexOf(url, 'dhcpo') > -1}">
-                            <li class="active">DHCP Optinet</li>
-                            </c:when>
-                            <c:otherwise>
-                            <li><a href="dhcpo">DHCP Optinet</a></li>
-                            </c:otherwise>
-                        </c:choose>                      
+                    <c:if test="${not empty session}">
+                        <c:if test="${session.getAttribute('dhcp')}">
+                            <c:choose>
+                                <c:when test="${fn:indexOf(url, 'dhcpo') > -1}">
+                                    <li class="active">DHCP Optinet</li>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <li><a href="dhcpo">DHCP Optinet</a></li>
+                                    </c:otherwise>
+                                </c:choose>                      
+                            </c:if>                    
+                        </c:if>                    
 
-                    <c:choose>
-                        <c:when test="${fn:indexOf(url, 'syslog') > -1}">
-                            <li class="active">Syslog</li>
-                            </c:when>
-                            <c:otherwise>
-                            <li><a href="syslog">Syslog</a></li>
-                            </c:otherwise>
-                        </c:choose>                      
+                    <c:if test="${not empty session}">
+                        <c:if test="${session.getAttribute('sys')}">
+                            <c:choose>
+                                <c:when test="${fn:indexOf(url, 'syslog') > -1}">
+                                    <li class="active">Syslog</li>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <li><a href="syslog">Syslog</a></li>
+                                    </c:otherwise>
+                                </c:choose>                      
+                            </c:if>                    
+                        </c:if>                    
 
-                    <c:choose>
-                        <c:when test="${fn:indexOf(url, 'dslam') > -1}">
-                            <li class="active">DSLAM</li>
-                            </c:when>
-                            <c:otherwise>
-                            <li><a href="dslam">DSLAM</a></li>
-                            </c:otherwise>
-                        </c:choose>                      
+                    <c:if test="${not empty session}">
+                        <c:if test="${session.getAttribute('sys')}">
+                            <c:choose>
+                                <c:when test="${fn:indexOf(url, 'dslam') > -1}">
+                                    <li class="active">DSLAM</li>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <li><a href="dslam">DSLAM</a></li>
+                                    </c:otherwise>
+                                </c:choose>                      
+                            </c:if>                    
+                        </c:if>                    
 
-                    <c:choose>
-                        <c:when test="${fn:indexOf(url, 'notifications') > -1}">
-                            <li class="active">Оповещения</li>
-                            </c:when>
-                            <c:otherwise>
-                            <li><a href="notifications">Оповещения</a></li>
-                            </c:otherwise>
-                        </c:choose>                      
+                    <c:if test="${not empty session}">
+                        <c:if test="${session.getAttribute('msg')}">
+                            <c:choose>
+                                <c:when test="${fn:indexOf(url, 'notifications') > -1}">
+                                    <li class="active">Оповещения</li>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <li><a href="notifications">Оповещения</a></li>
+                                    </c:otherwise>
+                                </c:choose>                      
+                            </c:if>                    
+                        </c:if>                    
 
-                    <c:choose>
-                        <c:when test="${fn:indexOf(url, 'alarms') > -1}">
-                            <li class="active">Аварии</li>
-                            </c:when>
-                            <c:otherwise>
-                            <li><a href="alarms">Аварии</a></li>
-                            </c:otherwise>
-                        </c:choose>   
+                    <c:if test="${not empty session}">
+                        <c:if test="${session.getAttribute('alm')}">
+                            <c:choose>
+                                <c:when test="${fn:indexOf(url, 'alarms') > -1}">
+                                    <li class="active">Аварии</li>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <li><a href="alarms">Аварии</a></li>
+                                    </c:otherwise>
+                                </c:choose>   
+                            </c:if>                    
+                        </c:if>                    
 
-                    <c:choose>
-                        <c:when test="${fn:indexOf(url, 'ntp') > -1}">
-                            <li class="active">NTP IP</li>
-                            </c:when>
-                            <c:otherwise>
-                            <li><a href="ntp">NTP IP</a></li>
-                            </c:otherwise>
-                        </c:choose>                      
+                    <c:if test="${not empty session}">
+                        <c:if test="${session.getAttribute('ntp')}">
+                            <c:choose>
+                                <c:when test="${fn:indexOf(url, 'ntp') > -1}">
+                                    <li class="active">NTP IP</li>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <li><a href="ntp">NTP IP</a></li>
+                                    </c:otherwise>
+                                </c:choose>                      
+                            </c:if>                    
+                        </c:if>                    
                 </ul>
             </div>
         </div>

@@ -192,11 +192,21 @@ public class AlarmsServlet extends HttpServlet {
                         if (codeOperation != 0) flagOperation = true; // fail add comment
                     }
                     
-                    if (flagOperation)
-                         request.setAttribute("code_op_add_comment_alarm", "Ошибка БД, комментарий не добавлен"); 
-                    else
-                         request.setAttribute("code_op_add_comment_alarm", "Операция успешна"); 
-                    
+//                    if (flagOperation)
+//                         request.setAttribute("code_op_add_comment_alarm", "Ошибка БД, комментарий не добавлен"); 
+//                    else
+//                         request.setAttribute("code_op_add_comment_alarm", "Операция успешна"); 
+
+                        if (flagOperation) {
+                            response.setContentType("application/json");
+                            response.setHeader("Cache-Control", "no-cache");
+                            response.getWriter().write("{\"error\"}");
+                        }
+                        else {
+                            response.setContentType("application/json");
+                            response.setHeader("Cache-Control", "no-cache");
+                            response.getWriter().write("{\"status\":1}");
+                        }
                 }
 
 

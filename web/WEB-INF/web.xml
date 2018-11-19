@@ -13,5 +13,9 @@
             <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>
+        <jsp-property-group>
+            <description>Форма входа</description>
+            <url-pattern>/WEB-INF/signin/*</url-pattern>
+        </jsp-property-group>
     </jsp-config>
 </web-app>

@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import session.CallersManager;
 import java.util.UUID;
+import utils.StrucUser;
 
 /**
  *
@@ -33,6 +34,8 @@ public class notifServlet extends HttpServlet {
 //    SmotrCallersFacade SmotrCallersFacade1;
     @PersistenceContext(unitName = "watcherPU")
     private EntityManager em;
+    
+    public StrucUser structUser;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -148,6 +151,9 @@ public class notifServlet extends HttpServlet {
             String GrList = request.getParameter("gr_list");
             String Msg = request.getParameter("msg");
             String ppp = request.getRemoteAddr(); //getRemoteHost()
+            structUser = StrucUser.getInstance();
+            String fio = structUser.getFio();
+            String finalMsg = Msg.replace("/", ppp + "\r\n" + fio + "\r\n");
             Integer codeOperation=callerManager.SendTlgMsg(ppp+';'+Msg,GrList);
             if (codeOperation != 0) {
                 response.setContentType("text/xml");

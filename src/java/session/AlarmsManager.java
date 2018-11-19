@@ -19,6 +19,7 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import utils.StrucUser;
 
 /**
  *
@@ -33,6 +34,7 @@ public class AlarmsManager {
     private SessionContext context;
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    public StrucUser structUser;
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Integer AddComment(final String id,final String comment_alarms) {
@@ -41,19 +43,20 @@ public class AlarmsManager {
 //            query.executeUpdate();
 
             ImportTechnograd tech = (ImportTechnograd) (em.createNamedQuery("ImportTechnograd.findById")
-                                .setParameter("id", id)
+                                .setParameter("id", Integer.parseInt(id))
                                 .getResultList()).get(0);
 
-
+            structUser = StrucUser.getInstance();
+            
             CommentsImportTechnograd cit = new CommentsImportTechnograd();
-            cit.setFio("11111111111111111");
+            cit.setFio(structUser.getFio());
             cit.setDate(new Date());
             cit.setTechId(tech);
             cit.setComments(comment_alarms);
             em.persist(cit);
 
             CommentsImportTechnogradArchive cita = new CommentsImportTechnogradArchive();
-            cita.setFio("11111111111111111");
+            cita.setFio(structUser.getFio());
             cita.setDate(new Date());
             cita.setTechId(tech);
             cita.setComments(comment_alarms);

@@ -177,7 +177,8 @@
                     },
                     // Что-то пошло не так
                     error: function (result) {
-                        //$('#id_call_error').css('display', 'inline');
+                        //$('#
+                        //').css('display', 'inline');
                     }
                 });
 
