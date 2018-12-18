@@ -32,9 +32,9 @@
         </div>-->
     <ul class="nav nav-tabs">
         <li role="presentation" class="active"><a href="alarms">Активные аварии</a></li>
-        <li role="presentation"><a href="alarms_bshpd">Аварии БШПД</a></li>
+<!--        <li role="presentation"><a href="alarms_bshpd">Аварии БШПД</a></li>
         <li role="presentation"><a href="alarms_bigping">Устройства с большим пингом</a></li>
-        <li role="presentation"><a href="alarms_magports">Магистральные порты ШПД</a></li>
+        <li role="presentation"><a href="alarms_magports">Магистральные порты ШПД</a></li>-->
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">

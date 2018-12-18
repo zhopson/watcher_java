@@ -8,8 +8,10 @@ package controller;
 //import entity.SmotrNtpWhatsapp;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -118,10 +120,15 @@ public class AlarmsServlet extends HttpServlet {
                 List resultList1 = query.getResultList();
                 boolean logsAdded = false;
                 if (resultList1.size() != 0) {
+                    SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy.MM.dd hh:mm");
                     for (Iterator iterator = resultList1.iterator(); iterator.hasNext();) {
                         Object[] next = (Object[]) iterator.next();
 
                         String s = next[11].toString();
+                        
+                        Date ddd = format1.parse(next[6].toString());
+                        String dt = format2.format(ddd);
 
                         sb.append("[");
                         sb.append("\"<input type=\\\"checkbox\\\" id=\\\"" + next[1] + "\\\" onclick=\\\"SelectAlarms(" + next[1] + ",this.checked," + next[8] + "," + next[9] + "," + next[10] + ")\\\" style=\\\"margin-left:8px\\\">\",");
@@ -131,7 +138,7 @@ public class AlarmsServlet extends HttpServlet {
                         sb.append("\"" + next[4] + "\",");
 //                            sb.append("\"" + next[5] + "\",");
                         sb.append("\"<a href=\\\"#\\\" data-toggle=\\\"tooltip\\\" title=\\\"Кол-во портов: " + next[8] + ", число инет: " + next[9] + ", Число IPTV: " + next[10] + "\\\">" + next[5] + "</a>\",");
-                        sb.append("\"" + next[6] + "\",");
+                        sb.append("\"" + dt + "\",");
                         sb.append("\"" + next[7] + "\",");
                         sb.append("\"" + next[8] + "\",");
                         sb.append("\"" + next[9] + "\",");

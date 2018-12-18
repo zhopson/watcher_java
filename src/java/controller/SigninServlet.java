@@ -65,7 +65,7 @@ public class SigninServlet extends HttpServlet {
             Date now = new Date();
 
             long interval = now.getTime() - createTime.getTime(); // ms
-            long SessionTimeout = 1800;//sess.getMaxInactiveInterval(); // getMaxInactiveInterval in seconds, configured in web.xml in section <session-timeout>
+            long SessionTimeout = 180000;//sess.getMaxInactiveInterval(); // getMaxInactiveInterval in seconds, configured in web.xml in section <session-timeout>
 
             if (interval > SessionTimeout * 1000) {
                 getServletContext().removeAttribute("session");
