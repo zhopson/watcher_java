@@ -21,6 +21,10 @@
         <script type="text/javascript" src="common.js?ver=1"></script>
     </head>
     <body onload="init()">
+        <c:out value="${sessionScope.username}" ></c:out>
+        
+<%--
+
         <c:if test="${not empty applicationScope['createtime_session']}">
 <%
             Date createTime = (Date) getServletContext().getAttribute("createtime_session");
@@ -36,7 +40,8 @@
             }
 %>            
         </c:if>
-            
+
+--%>        
         <div class="modal fade" id="DBReqModal_id" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -59,14 +64,14 @@
             <!--     <img src="" id="logoText" alt="Информация с БД Zabbix">-->
             <div class="logoText"> Информация с БД РЦУСС</div>
             <c:choose>
-                <c:when test="${empty session}">       <%--  <c:when test="${empty username}"> --%>
+                <c:when test="${empty sessionScope.username}">       <%--  <c:when test="${empty username}"> --%>
                     <div class="pull-right" style='padding-top: 25px; padding-right: 30px;'> <a href="login">Войти</a></div>
                 </c:when>
                 <c:otherwise>
 <!--                    <div class="pull-right" style='padding-top: 25px; padding-right: 30px;'>-->
                     <ul class="nav navbar-nav navbar-right" style='padding-right: 30px;'>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${session.getAttribute("fio")} <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${sessionScope.username} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="logout">Выход</a></li>
 <!--                            <li role="separator" class="divider"></li>
@@ -85,8 +90,8 @@
                 <c:set var="url" value="${pageContext.request.requestURL}"/>
                 <ul>
 
-                    <c:if test="${not empty session}">
-                        <c:if test="${session.getAttribute('dhcp')}">
+                    <c:if test="${not empty sessionScope.username}">
+                        <c:if test="${sessionScope.dhcp}">
                             <c:choose>
                                 <c:when test="${fn:indexOf(url, 'dhcpo') > -1}">
                                     <li class="active">DHCP Optinet</li>
@@ -98,8 +103,10 @@
                             </c:if>                    
                         </c:if>                    
 
-                    <c:if test="${not empty session}">
-                        <c:if test="${session.getAttribute('sys')}">
+                    <%---<c:if test="${not empty session}">--%>
+                        <%---<c:if test="${session.getAttribute('sys')}">--%>
+                    <c:if test="${not empty sessionScope.username}">
+                        <c:if test="${sessionScope.sys}">
                             <c:choose>
                                 <c:when test="${fn:indexOf(url, 'syslog') > -1}">
                                     <li class="active">Syslog</li>
@@ -111,8 +118,8 @@
                             </c:if>                    
                         </c:if>                    
 
-                    <c:if test="${not empty session}">
-                        <c:if test="${session.getAttribute('sys')}">
+                    <c:if test="${not empty sessionScope.username}">
+                        <c:if test="${sessionScope.sys}">
                             <c:choose>
                                 <c:when test="${fn:indexOf(url, 'dslam') > -1}">
                                     <li class="active">DSLAM</li>
@@ -124,8 +131,8 @@
                             </c:if>                    
                         </c:if>                    
 
-                    <c:if test="${not empty session}">
-                        <c:if test="${session.getAttribute('msg')}">
+                    <c:if test="${not empty sessionScope.username}">
+                        <c:if test="${sessionScope.msg}">
                             <c:choose>
                                 <c:when test="${fn:indexOf(url, 'notifications') > -1}">
                                     <li class="active">Оповещения</li>
@@ -137,8 +144,8 @@
                             </c:if>                    
                         </c:if>                    
 
-                    <c:if test="${not empty session}">
-                        <c:if test="${session.getAttribute('alm')}">
+                    <c:if test="${not empty sessionScope.username}">
+                        <c:if test="${sessionScope.alm}">
                             <c:choose>
                                 <c:when test="${fn:indexOf(url, 'alarms') > -1}">
                                     <li class="active">Аварии</li>
@@ -150,8 +157,8 @@
                             </c:if>                    
                         </c:if>                    
 
-                    <c:if test="${not empty session}">
-                        <c:if test="${session.getAttribute('ntp')}">
+                    <c:if test="${not empty sessionScope.username}">
+                        <c:if test="${sessionScope.ntp}">
                             <c:choose>
                                 <c:when test="${fn:indexOf(url, 'ntp') > -1}">
                                     <li class="active">NTP IP</li>
@@ -166,5 +173,4 @@
             </div>
         </div>
 
-        <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DBReqModal_id">Small modal</button>-->
 

@@ -30,7 +30,7 @@ import utils.StrucUser;
  *
  * @author andrey-man
  */
-@WebServlet(name = "web_controller", urlPatterns = {"/alarms", "/alarms_bigping", "/alarms_bshpd", "/alarms_magports", "/dhcpo", "/dslam", "/dslam_s", "/notifications", "/notifications_r", "/notifications_a", "/ntp", "/syslog"})
+@WebServlet(name = "web_controller", urlPatterns = {"/welcome","/alarms", "/alarms_bigping", "/alarms_bshpd", "/alarms_magports", "/dhcpo", "/dslam", "/dslam_s", "/notifications", "/notifications_r", "/notifications_a", "/ntp", "/syslog"})
 public class web_controller extends HttpServlet {
 
     @EJB
@@ -55,60 +55,65 @@ public class web_controller extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        //HttpSession session = request.getSession(false);
-        if (getServletContext().getAttribute("session") != null) //sess = request.getSession(true);
-        {
-
-            Date createTime = (Date) getServletContext().getAttribute("createtime_session");
-            Date now = new Date();
-
-            long interval = now.getTime() - createTime.getTime(); // ms
-            long SessionTimeout = 180000;//sess.getMaxInactiveInterval(); // getMaxInactiveInterval in seconds, configured in web.xml in section <session-timeout>
-
-            if (interval > SessionTimeout * 1000) {
-                getServletContext().removeAttribute("session");
-                getServletContext().removeAttribute("createtime_session");
-                getServletContext().removeAttribute("username");
-            }
-            else {
-                
-                boolean FlagDHCP = false,FlagSyslog = false,FlagWhatsapp = false,FlagAlarms = false,FlagNtp = false;
-                structUser = StrucUser.getInstance();
-                if (structUser.getDhcp_role() == 1) FlagDHCP = true;
-                if (structUser.getSyslog_role() == 1) FlagSyslog = true;
-                if (structUser.getWhatsapp_role() == 1) FlagWhatsapp = true;
-                if (structUser.getAlarms_role() == 1) FlagAlarms = true;
-                if (structUser.getNtp_role() == 1) FlagNtp = true;
-                
-                String login = (String)getServletContext().getAttribute("username");
-                HttpSession oldsession = (HttpSession)getServletContext().getAttribute("session");
-                String fio = (String)oldsession.getAttribute("fio");
-                oldsession.invalidate();
-                
-                getServletContext().removeAttribute("session");
-                getServletContext().removeAttribute("createtime_session");
-                getServletContext().removeAttribute("username");
-                
-                HttpSession session = request.getSession(true);
-                session.setAttribute("username",login);
-                session.setAttribute("fio",fio);
-
-                session.setAttribute("dhcp",FlagDHCP);
-                session.setAttribute("sys",FlagSyslog);
-                session.setAttribute("msg",FlagWhatsapp);
-                session.setAttribute("alm",FlagAlarms);
-                session.setAttribute("ntp",FlagNtp);
-                
-                getServletContext().setAttribute("session", session);
-                getServletContext().setAttribute("username", login);
-                getServletContext().setAttribute("createtime_session", now);
-                
-            }
-
-        }
+        HttpSession session = request.getSession();
+        String name = (String) session.getAttribute("username");
+         System.out.println("common controller user:"+session.getAttribute("username"));
         
-        //if (getServletContext().getAttribute("username") != null) {
-        if (getServletContext().getAttribute("session") != null) {
+//        if (getServletContext().getAttribute("session") != null) //sess = request.getSession(true);
+//        {
+//
+//            Date createTime = (Date) getServletContext().getAttribute("createtime_session");
+//            Date now = new Date();
+//
+//            long interval = now.getTime() - createTime.getTime(); // ms
+//            long SessionTimeout = 180000;//sess.getMaxInactiveInterval(); // getMaxInactiveInterval in seconds, configured in web.xml in section <session-timeout>
+//
+//            if (interval > SessionTimeout * 1000) {
+//                getServletContext().removeAttribute("session");
+//                getServletContext().removeAttribute("createtime_session");
+//                getServletContext().removeAttribute("username");
+//            }
+//            else {
+//                
+//                boolean FlagDHCP = false,FlagSyslog = false,FlagWhatsapp = false,FlagAlarms = false,FlagNtp = false;
+//                structUser = StrucUser.getInstance();
+//                if (structUser.getDhcp_role() == 1) FlagDHCP = true;
+//                if (structUser.getSyslog_role() == 1) FlagSyslog = true;
+//                if (structUser.getWhatsapp_role() == 1) FlagWhatsapp = true;
+//                if (structUser.getAlarms_role() == 1) FlagAlarms = true;
+//                if (structUser.getNtp_role() == 1) FlagNtp = true;
+//                
+//                String login = (String)getServletContext().getAttribute("username");
+//                HttpSession oldsession = (HttpSession)getServletContext().getAttribute("session");
+//                String fio = (String)oldsession.getAttribute("fio");
+//                oldsession.invalidate();
+//                
+//                getServletContext().removeAttribute("session");
+//                getServletContext().removeAttribute("createtime_session");
+//                getServletContext().removeAttribute("username");
+//                
+//                HttpSession session = request.getSession(true);
+//                session.setAttribute("username",login);
+//                session.setAttribute("fio",fio);
+//
+//                session.setAttribute("dhcp",FlagDHCP);
+//                session.setAttribute("sys",FlagSyslog);
+//                session.setAttribute("msg",FlagWhatsapp);
+//                session.setAttribute("alm",FlagAlarms);
+//                session.setAttribute("ntp",FlagNtp);
+//                
+//                getServletContext().setAttribute("session", session);
+//                getServletContext().setAttribute("username", login);
+//                getServletContext().setAttribute("createtime_session", now);
+//                
+//            }
+//
+//        }
+        
+//        if (getServletContext().getAttribute("username") != null) {
+        if (name != null) {
+            
+            structUser = StrucUser.getInstance();
 
             //getServletContext().setAttribute("session", session);
             String userPath = request.getServletPath();
@@ -156,15 +161,26 @@ public class web_controller extends HttpServlet {
                 if (structUser.getAlarms_role() != 1) { response.sendRedirect("/watcher/");  return; }  
 
             } else if ("/dhcpo".equals(userPath)) {
+
+//        HttpSession session = request.getSession();
+//        String name = (String) session.getAttribute("username");
+//         System.out.println("common controller dhcpo user:"+session.getAttribute("username"));
                 
                 if (structUser.getDhcp_role() != 1) { response.sendRedirect("/watcher/"); return; }
                 
             } else if ("/ntp".equals(userPath)) {
+
+//        HttpSession session = request.getSession();
+//        String name = (String) session.getAttribute("username");
+//         System.out.println("common controller ntp user:"+session.getAttribute("username"));
                 
                 if (structUser.getNtp_role() != 1) { response.sendRedirect("/watcher/"); return; }   
                 
             }
-            //else response.sendRedirect("/watcher/");
+            else {//response.sendRedirect("/watcher/");
+//                    HttpSession session = request.getSession();
+//                    session.setAttribute("username","user1");
+            }
 
             request.getRequestDispatcher("/WEB-INF/views" + userPath + ".jsp").forward(request, response);
 

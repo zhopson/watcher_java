@@ -60,27 +60,32 @@ public class SigninServlet extends HttpServlet {
         
         String userPath = request.getServletPath();
         if ("/logout".equals(userPath)) {
-            
-            Date createTime = (Date) getServletContext().getAttribute("createtime_session");
-            Date now = new Date();
+  
 
-            long interval = now.getTime() - createTime.getTime(); // ms
-            long SessionTimeout = 180000;//sess.getMaxInactiveInterval(); // getMaxInactiveInterval in seconds, configured in web.xml in section <session-timeout>
-
-            if (interval > SessionTimeout * 1000) {
-                getServletContext().removeAttribute("session");
-                getServletContext().removeAttribute("createtime_session");
-                getServletContext().removeAttribute("username");
-            } 
-            else {
+                    HttpSession session = request.getSession();
+                    session.invalidate();
             
-                HttpSession oldsession = (HttpSession)getServletContext().getAttribute("session");
-                oldsession.invalidate();            
-                
-                getServletContext().removeAttribute("session");
-                getServletContext().removeAttribute("createtime_session");
-                getServletContext().removeAttribute("username");            
-            }
+            
+//            Date createTime = (Date) getServletContext().getAttribute("createtime_session");
+//            Date now = new Date();
+//
+//            long interval = now.getTime() - createTime.getTime(); // ms
+//            long SessionTimeout = 180000;//sess.getMaxInactiveInterval(); // getMaxInactiveInterval in seconds, configured in web.xml in section <session-timeout>
+//
+//            if (interval > SessionTimeout * 1000) {
+//                getServletContext().removeAttribute("session");
+//                getServletContext().removeAttribute("createtime_session");
+//                getServletContext().removeAttribute("username");
+//            } 
+//            else {
+//            
+//                HttpSession oldsession = (HttpSession)getServletContext().getAttribute("session");
+//                oldsession.invalidate();            
+//                
+//                getServletContext().removeAttribute("session");
+//                getServletContext().removeAttribute("createtime_session");
+//                getServletContext().removeAttribute("username");            
+//            }
             response.sendRedirect("/watcher/");
         }
 
@@ -197,20 +202,28 @@ public class SigninServlet extends HttpServlet {
                     session.setAttribute("msg",FlagWhatsapp);
                     session.setAttribute("alm",FlagAlarms);
                     session.setAttribute("ntp",FlagNtp);
+                    
+                     System.out.println("user:"+session.getAttribute("username"));
 
 
                     
-                    getServletContext().setAttribute("session", session);
-                    Date createTime = new Date(session.getCreationTime());
-                    getServletContext().setAttribute("createtime_session", createTime);
+//                    getServletContext().setAttribute("session", session);
+//                    Date createTime = new Date(session.getCreationTime());
+//                    getServletContext().setAttribute("createtime_session", createTime);
+//                    
+//                    
+//                    
+//                    getServletContext().setAttribute("username", inputlogin);
+                    
+                    //response.sendRedirect("/watcher/welcome");
+                    //request.setAttribute("session", session);
+                    
+                    //response.sendRedirect(response.encodeRedirectURL(url));
+                    request.getRequestDispatcher("/WEB-INF/views/welcome.jsp").forward(request, response);
                     
                     
+                    //response.sendRedirect("/watcher/dhcpo");
                     
-                    getServletContext().setAttribute("username", inputlogin);
-                    
-                    response.sendRedirect("/watcher/index.jsp");
-                    //request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
-                    //processRequest(request, response);
                     
                 } else {
                     //nothing to show
